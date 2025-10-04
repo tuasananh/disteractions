@@ -1,0 +1,43 @@
+{
+    "name": "disteractions",
+    "version": "0.1.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tuasananh/disteractions.git"
+    },
+    "type": "module",
+    "keywords": [],
+    "author": "Tran Tuan Anh <tuasananh@gmail.com>",
+    "files": [
+        "dist",
+        "README.md"
+    ],
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/tuasananh/disteractions/issues"
+    },
+    "homepage": "https://github.com/tuasananh/disteractions",
+    "devDependencies": {
+        "@eslint/js": "^9.36.0",
+        "eslint": "^9.36.0",
+        "globals": "^16.4.0",
+        "typescript": "^5.9.2",
+        "typescript-eslint": "^8.45.0"
+    },
+    "dependencies": {
+        "@discordjs/builders": "^1.11.3",
+        "@discordjs/core": "^2.2.2",
+        "@discordjs/formatters": "^0.6.1",
+        "@discordjs/rest": "^2.6.0",
+        "@sapphire/snowflake": "^3.5.5",
+        "hono": "^4.9.9",
+        "tweetnacl": "^1.0.3"
+    }
+}
