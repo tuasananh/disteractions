@@ -18,7 +18,7 @@ type ValidChatInputInteractionResponse =
 
 export type ChatInputApplicationCommandCallback<
     E extends Env,
-    Args extends ChatInputApplicationCommandArguments,
+    Args extends ChatInputApplicationCommandArguments<E>,
     RetType extends void | HonoJsonResponse<ValidChatInputInteractionResponse>
 > = (
     interaction: ChatInputApplicationCommandInteraction<E>,
@@ -32,7 +32,7 @@ export type ChatInputApplicationCommandCallback<
 
 export type ChatInputApplicationCommandRunner<
     E extends Env,
-    Args extends ChatInputApplicationCommandArguments
+    Args extends ChatInputApplicationCommandArguments<E>
 > =
     | {
           shouldDefer: true;

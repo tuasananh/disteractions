@@ -11,7 +11,8 @@ import type { Env } from "hono";
 import { Message } from "../discord_objects/message.js";
 import { User } from "../discord_objects/user.js";
 import type { DisteractionContext } from "../disteraction_context.js";
-import type { ApplicationCommandInteraction } from "./command_interaction.js";
+import type { ApplicationCommandAutocompleteInteraction } from "./application_command_autocomplete_interaction.js";
+import type { ApplicationCommandInteraction } from "./application_command_interaction.js";
 import type { MessageComponentInteraction } from "./message_component_interaction.js";
 import type { ModalSubmitInteraction } from "./modal_submit_interaction.js";
 
@@ -43,6 +44,12 @@ export class Interaction<E extends Env> {
 
     isMessageComponent(): this is MessageComponentInteraction<E> {
         return this.data.type === InteractionType.MessageComponent;
+    }
+
+    isApplicationCommandAutocomplete(): this is ApplicationCommandAutocompleteInteraction<E> {
+        return (
+            this.data.type === InteractionType.ApplicationCommandAutocomplete
+        );
     }
 
     badRequest(): ReturnType<

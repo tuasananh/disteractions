@@ -19,6 +19,7 @@ import {
     ModalSubmitInteraction,
 } from "../structures/index.js";
 import { applicationCommandHandler } from "./application_command/index.js";
+import { applicationCommandAutocompleteHandler } from "./application_command_autocomplete/index.js";
 import { messageComponentHandler } from "./message_component/index.js";
 import { modalSubmitHandler } from "./modal_submit/index.js";
 export * from "./application_command/index.js";
@@ -109,6 +110,10 @@ export async function interactionHandler<E extends Env>(
 
     if (interaction.isMessageComponent()) {
         return await messageComponentHandler(interaction);
+    }
+
+    if (interaction.isApplicationCommandAutocomplete()) {
+        return await applicationCommandAutocompleteHandler(interaction);
     }
 
     return interaction.badRequest();

@@ -13,7 +13,7 @@ import {
 
 export class DisteractionsFactory<E extends Env> {
     get slashCommand() {
-        return function <Args extends ChatInputApplicationCommandArguments>(
+        return function <Args extends ChatInputApplicationCommandArguments<E>>(
             opts: ChatInputApplicationCommandOptions<E, Args>
         ) {
             return new ChatInputApplicationCommand<E, Args>(opts);

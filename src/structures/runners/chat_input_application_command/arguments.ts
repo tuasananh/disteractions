@@ -1,5 +1,7 @@
 import type { ApplicationCommandOptionType } from "@discordjs/core/http-only";
+import type { Env } from "hono";
 import type { RequiredIf } from "../../../utils/index.js";
+import type { ApplicationCommandAutocompleteInteraction } from "../../interactions/application_command_autocomplete_interaction.js";
 
 type CommandArgumentToType<T extends ApplicationCommandOptionType> = T extends
     | ApplicationCommandOptionType.Integer
@@ -39,9 +41,15 @@ type SharedMinMax = {
     maxValue?: number;
 };
 
-type ChoiceWrapper<ChoiceType> =
+type AutocompleteCallback<E extends Env, ChoiceType> = (
+    interaction: ApplicationCommandAutocompleteInteraction<E>,
+    value: ChoiceType
+) => Promise<{ name: string; value: ChoiceType }[]>;
+
+type ChoiceWrapper<E extends Env, ChoiceType> =
     | {
           autocomplete: true;
+          autocompleteCallback: AutocompleteCallback<E, string>;
           choices?: [];
       }
     | {
@@ -52,30 +60,30 @@ type ChoiceWrapper<ChoiceType> =
 export type ChatInputApplicationCommandBooleanArgument =
     ArgumentBase<ApplicationCommandOptionType.Boolean>;
 
-export type ChatInputApplicationCommandIntegerArgument =
+export type ChatInputApplicationCommandIntegerArgument<E extends Env> =
     ArgumentBase<ApplicationCommandOptionType.Integer> &
         SharedMinMax &
-        ChoiceWrapper<number>;
+        ChoiceWrapper<E, number>;
 
-export type ChatInputApplicationCommandStringArgument =
+export type ChatInputApplicationCommandStringArgument<E extends Env> =
     ArgumentBase<ApplicationCommandOptionType.String> &
-        ChoiceWrapper<string> & {
+        ChoiceWrapper<E, string> & {
             minLength?: number;
             maxLength?: number;
         };
 
-export type ChatInputApplicationCommandNumberArgument =
+export type ChatInputApplicationCommandNumberArgument<E extends Env> =
     ArgumentBase<ApplicationCommandOptionType.Number> &
         SharedMinMax &
-        ChoiceWrapper<number>;
+        ChoiceWrapper<E, number>;
 
-type ChatInputApplicationCommandArgument =
-    | ChatInputApplicationCommandIntegerArgument
+type ChatInputApplicationCommandArgument<E extends Env> =
+    | ChatInputApplicationCommandIntegerArgument<E>
     | ChatInputApplicationCommandBooleanArgument
-    | ChatInputApplicationCommandNumberArgument
-    | ChatInputApplicationCommandStringArgument;
+    | ChatInputApplicationCommandNumberArgument<E>
+    | ChatInputApplicationCommandStringArgument<E>;
 
-export type ChatInputApplicationCommandArguments = Record<
+export type ChatInputApplicationCommandArguments<E extends Env> = Record<
     string,
-    ChatInputApplicationCommandArgument
+    ChatInputApplicationCommandArgument<E>
 >;

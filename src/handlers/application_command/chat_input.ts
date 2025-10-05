@@ -79,7 +79,7 @@ export async function chatInputApplicationCommandHandler<E extends Env>(
     const promise = async (
         callback: ChatInputApplicationCommandCallback<
             E,
-            ChatInputApplicationCommandArguments,
+            ChatInputApplicationCommandArguments<E>,
             void
         >
     ) => {

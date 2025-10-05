@@ -16,7 +16,7 @@ export * from "./runner.js";
 
 export type ChatInputApplicationCommandOptions<
     E extends Env,
-    Args extends ChatInputApplicationCommandArguments
+    Args extends ChatInputApplicationCommandArguments<E>
 > = {
     name: string;
     description: string;
@@ -29,7 +29,7 @@ export type ChatInputApplicationCommandOptions<
 
 export class ChatInputApplicationCommand<
     E extends Env,
-    Args extends ChatInputApplicationCommandArguments = ChatInputApplicationCommandArguments
+    Args extends ChatInputApplicationCommandArguments<E> = ChatInputApplicationCommandArguments<E>
 > implements ChatInputApplicationCommandOptions<E, Args>
 {
     readonly name: string;
