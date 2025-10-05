@@ -7,6 +7,7 @@ export default defineConfig([
     {
         files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
         plugins: { js },
+        ignores: ["eslint.config.mjs"],
         extends: ["js/recommended"],
         rules: {
             "@typescript-eslint/no-unused-vars": [
@@ -28,8 +29,17 @@ export default defineConfig([
                     ],
                 },
             ],
+            "@typescript-eslint/strict-boolean-expressions": "error",
         },
         languageOptions: { globals: globals.node },
     },
-    tseslint.configs.recommended,
+    tseslint.configs.recommendedTypeChecked,
+    {
+        languageOptions: {
+            parserOptions: {
+                projectService: true,
+                tsconfigRootDir: import.meta.dirname,
+            },
+        },
+    },
 ]);

@@ -18,5 +18,5 @@ export async function applicationCommandAutocompleteHandler<E extends Env>(
         interaction,
         focusedOption.value
     );
-    return interaction.respond<string | number>(choices);
+    return interaction.jsonRespond<string | number>(choices);
 }

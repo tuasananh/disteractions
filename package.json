@@ -6,7 +6,9 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc"
+        "build": "tsc",
+        "lint": "eslint ./src",
+        "gendoc": "typedoc --out docs src --includeVersion --excludePrivate --excludeProtected"
     },
     "repository": {
         "type": "git",
@@ -28,6 +30,7 @@
         "@eslint/js": "^9.36.0",
         "eslint": "^9.36.0",
         "globals": "^16.4.0",
+        "typedoc": "^0.28.13",
         "typescript": "^5.9.2",
         "typescript-eslint": "^8.45.0"
     },

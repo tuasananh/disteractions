@@ -45,8 +45,8 @@ export class ChatInputApplicationCommand<
         this.description = opts.description;
         if (opts.arguments) this.arguments = opts.arguments;
         if (opts.contexts) this.contexts = opts.contexts;
-        if (opts.nsfw) this.nsfw = opts.nsfw;
-        if (opts.ownerOnly) this.ownerOnly = opts.ownerOnly;
+        if (opts.nsfw !== undefined) this.nsfw = opts.nsfw;
+        if (opts.ownerOnly !== undefined) this.ownerOnly = opts.ownerOnly;
         this.runner = opts.runner;
     }
 
@@ -89,7 +89,7 @@ export class ChatInputApplicationCommand<
                                 if (option.maxLength !== undefined)
                                     stringOption.max_length = option.maxLength;
 
-                                if (option.autocomplete) {
+                                if (option.autocomplete ?? false) {
                                     return {
                                         ...stringOption,
                                         autocomplete: true,
@@ -107,7 +107,7 @@ export class ChatInputApplicationCommand<
                                 const integerOption: APIApplicationCommandIntegerOptionBase =
                                     this.getBaseOption(name, option);
                                 this.addMinMax(integerOption, option);
-                                if (option.autocomplete) {
+                                if (option.autocomplete ?? false) {
                                     return {
                                         ...integerOption,
                                         autocomplete: true,
@@ -125,7 +125,7 @@ export class ChatInputApplicationCommand<
                                 const numberOption: APIApplicationCommandNumberOptionBase =
                                     this.getBaseOption(name, option);
                                 this.addMinMax(numberOption, option);
-                                if (option.autocomplete) {
+                                if (option.autocomplete ?? false) {
                                     return {
                                         ...numberOption,
                                         autocomplete: true,

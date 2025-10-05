@@ -30,12 +30,12 @@ export class ApplicationCommandAutocompleteInteraction<
         );
     }
 
-    async respond<ChoiceType extends string | number>(
+    jsonRespond<ChoiceType extends string | number>(
         choices: {
             name: string;
             value: ChoiceType;
         }[]
-    ): Promise<Response> {
+    ): Response {
         return this.ctx.hono.json<APIInteractionResponse>({
             type: InteractionResponseType.ApplicationCommandAutocompleteResult,
             data: {

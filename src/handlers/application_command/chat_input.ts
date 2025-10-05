@@ -20,7 +20,8 @@ export async function chatInputApplicationCommandHandler<E extends Env>(
 
     if (
         !invoked_user ||
-        (command.ownerOnly && invoked_user.id !== interaction.ctx.ownerId)
+        ((command.ownerOnly ?? false) &&
+            invoked_user.id !== interaction.ctx.ownerId)
     ) {
         return interaction.jsonReply("Permissions denied.");
     }

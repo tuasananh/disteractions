@@ -9,7 +9,7 @@ export async function messageComponentButtonHandler<E extends Env>(
 ): Promise<Response> {
     const buttonId = interaction.custom_id.at(0)?.charCodeAt(0);
 
-    if (!buttonId) return interaction.badRequest();
+    if (buttonId === undefined) return interaction.badRequest();
 
     const button = interaction.ctx.buttonMap.get(buttonId);
 

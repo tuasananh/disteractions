@@ -35,8 +35,8 @@ const verifyDiscordRequest = async <E extends Env>(
     const timestamp = c.req.header("X-Signature-Timestamp");
     const body = await c.req.text(); // rawBody is expected to be a string, not raw bytes
     const isVerified =
-        timestamp &&
-        signature &&
+        timestamp !== undefined &&
+        signature !== undefined &&
         nacl.sign.detached.verify(
             Buffer.from(timestamp + body),
             Buffer.from(signature, "hex"),

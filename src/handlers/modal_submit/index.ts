@@ -10,7 +10,7 @@ export async function modalSubmitHandler<E extends Env>(
     interaction: ModalSubmitInteraction<E>
 ): Promise<Response> {
     const modalId = interaction.custom_id.at(0)?.charCodeAt(0);
-    if (!modalId) return interaction.badRequest();
+    if (modalId === undefined) return interaction.badRequest();
 
     const modal = interaction.ctx.modalMap.get(modalId);
 

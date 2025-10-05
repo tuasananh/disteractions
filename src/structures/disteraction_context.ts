@@ -29,7 +29,7 @@ export class DisteractionContext<E extends Env> {
     constructor(opts: DisteractionContextOptions<E>) {
         this.hono = opts.hono;
         this.discord = makeApiFromToken(opts.discordToken);
-        if (opts.ownerId) this.ownerId = opts.ownerId;
+        if (opts.ownerId !== undefined) this.ownerId = opts.ownerId;
         this.commands = opts.commands ?? [];
         this.commandMap = new Map(
             this.commands.map((command) => [command.name, command])
