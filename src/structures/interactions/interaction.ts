@@ -4,6 +4,8 @@ import {
     type APIInteractionResponseChannelMessageWithSource,
     type APIInteractionResponseDeferredChannelMessageWithSource,
     type APIInteractionResponsePong,
+    type APIModalInteractionResponse,
+    type APIModalInteractionResponseCallbackData,
     InteractionResponseType,
     InteractionType,
 } from "@discordjs/core/http-only";
@@ -79,6 +81,15 @@ export class Interaction<E extends Env> {
         );
     }
 
+    jsonShowModal(
+        options: APIModalInteractionResponseCallbackData
+    ): ReturnType<typeof this.ctx.hono.json<APIModalInteractionResponse>> {
+        return this.ctx.hono.json<APIModalInteractionResponse>({
+            type: InteractionResponseType.Modal,
+            data: options,
+        });
+    }
+
     jsonReply(
         options: APIInteractionResponseCallbackData | string
     ): ReturnType<
@@ -114,6 +125,14 @@ export class Interaction<E extends Env> {
                 this.data.token,
                 typeof options === "string" ? { content: options } : options
             )
+        );
+    }
+
+    async showModal(options: APIModalInteractionResponseCallbackData) {
+        await this.ctx.discord.interactions.createModal(
+            this.data.application_id,
+            this.data.token,
+            options
         );
     }
 }
