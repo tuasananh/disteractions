@@ -14,7 +14,9 @@ export async function applicationCommandAutocompleteHandler<E extends Env>(
     if (!("autocomplete" in argument)) return interaction.badRequest();
     if (!argument.autocomplete) return interaction.badRequest();
     if (argument.type !== focusedOption.type) return interaction.badRequest();
-    return interaction.respond(
-        await argument.autocompleteCallback(interaction, focusedOption.value)
+    const choices = await argument.autocompleteCallback(
+        interaction,
+        focusedOption.value
     );
+    return interaction.respond<string | number>(choices);
 }

@@ -18,6 +18,7 @@ import {
     MessageComponentButtonInteraction,
     ModalSubmitInteraction,
 } from "../structures/index.js";
+import { ApplicationCommandAutocompleteInteraction } from "../structures/interactions/application_command_autocomplete_interaction.js";
 import { applicationCommandHandler } from "./application_command/index.js";
 import { applicationCommandAutocompleteHandler } from "./application_command_autocomplete/index.js";
 import { messageComponentHandler } from "./message_component/index.js";
@@ -76,6 +77,8 @@ const makeInteraction = async <E extends Env>(
             break;
         case InteractionType.ModalSubmit:
             return new ModalSubmitInteraction(ctx, data);
+        case InteractionType.ApplicationCommandAutocomplete:
+            return new ApplicationCommandAutocompleteInteraction(ctx, data);
         default:
             break;
     }

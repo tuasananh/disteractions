@@ -43,13 +43,13 @@ type SharedMinMax = {
 
 type AutocompleteCallback<E extends Env, ChoiceType> = (
     interaction: ApplicationCommandAutocompleteInteraction<E>,
-    value: ChoiceType
+    value: string
 ) => Promise<{ name: string; value: ChoiceType }[]>;
 
 type ChoiceWrapper<E extends Env, ChoiceType> =
     | {
           autocomplete: true;
-          autocompleteCallback: AutocompleteCallback<E, string>;
+          autocompleteCallback: AutocompleteCallback<E, ChoiceType>;
           choices?: [];
       }
     | {
