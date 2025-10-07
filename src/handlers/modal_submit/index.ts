@@ -18,6 +18,8 @@ export async function modalSubmitHandler<E extends Env>(
         return interaction.badRequest();
     }
 
+    const data = interaction.custom_id.slice(1);
+
     const args: Record<string, string | string[]> = {};
 
     interaction.data.data.components.forEach((value) => {
@@ -47,7 +49,7 @@ export async function modalSubmitHandler<E extends Env>(
     if (!("shouldDefer" in modal.runner) || !modal.runner.shouldDefer) {
         const callback =
             "callback" in modal.runner ? modal.runner.callback : modal.runner;
-        return await callback(interaction, args);
+        return await callback(interaction, args, data);
     }
 
     const promise = async (callback: ModalCallback<E, ModalFields, void>) => {
@@ -55,7 +57,7 @@ export async function modalSubmitHandler<E extends Env>(
             await new Promise<void>((f) => f());
         }
 
-        await callback(interaction, args);
+        await callback(interaction, args, data);
     };
 
     interaction.ctx.hono.executionCtx.waitUntil(promise(modal.runner.callback));

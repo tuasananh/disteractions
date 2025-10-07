@@ -19,7 +19,8 @@ export type ModalCallback<
     interaction: ModalSubmitInteraction<E>,
     args: {
         [K in keyof Fields]: ModalFieldToType<Fields[K]["type"]>;
-    }
+    },
+    data: string
 ) => Promise<RetType>;
 
 export type ModalRunner<E extends Env, Fields extends ModalFields> =
