@@ -1,13 +1,13 @@
 import js from "@eslint/js";
-import { defineConfig } from "eslint/config";
+import tsdoc from "eslint-plugin-tsdoc";
+import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default defineConfig([
     {
         files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
-        plugins: { js },
-        ignores: ["eslint.config.mjs"],
+        plugins: { js, tsdoc },
         extends: ["js/recommended"],
         rules: {
             "@typescript-eslint/no-unused-vars": [
@@ -30,6 +30,7 @@ export default defineConfig([
                 },
             ],
             "@typescript-eslint/strict-boolean-expressions": "error",
+            "tsdoc/syntax": "error",
         },
         languageOptions: { globals: globals.node },
     },
@@ -42,4 +43,5 @@ export default defineConfig([
             },
         },
     },
+    globalIgnores(["eslint.config.mjs"]),
 ]);
