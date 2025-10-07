@@ -10,6 +10,7 @@
         "lint": "eslint ./src",
         "gendoc": "typedoc --out docs src --includeVersion --excludePrivate --excludeProtected"
     },
+    "packageManager": "pnpm@10.16.1",
     "repository": {
         "type": "git",
         "url": "https://github.com/tuasananh/disteractions.git"
