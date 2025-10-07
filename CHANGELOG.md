@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Additional utility functions
 -   Performance optimizations
 
+## [0.6.0]
+
+### Added
+
+-   AI-generated documentation
+
+[0.6.0]: https://github.com/tuasananh/disteractions/releases/tag/v0.6.0
+
 ## [0.5.1] - 2025-10-07
 
 ### Fixed
