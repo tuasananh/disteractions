@@ -1,3 +1,4 @@
+export * from "./application_command_autocomplete_interaction.js";
 export * from "./application_command_interaction.js";
 export * from "./chat_input_application_command_interaction.js";
 export * from "./interaction.js";

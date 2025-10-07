@@ -10,10 +10,14 @@ import {
 } from "@discordjs/core/http-only";
 import { type Env } from "hono";
 import type {
+    MakeOptionalIfAllKeysAreOptional,
+    MakeOptionalIfUndefined,
+} from "../../../utils/index.js";
+import type {
     ModalFields,
     ModalFieldToToAPIType,
+    ModalTextDisplayField,
     StringSelectField,
-    TextDisplayField,
     TextInputField,
 } from "./fields.js";
 import type { ModalRunner } from "./runner.js";
@@ -22,22 +26,41 @@ export * from "./runner.js";
 
 export type ModalOptions<E extends Env, Fields extends ModalFields> = {
     /**
-     * A unique iddkkentifier for the button in range [0, 65534].
-     * This will determine what button was clicked.
+     * A unique identifier for the modal in range [1, 65534].
+     * This will determine what modal was clicked and call its handler.
      */
     id: number;
+    /**
+     * The title of the modal (max 45 characters).
+     */
     title: string;
+    /**
+     * The fields of the modal.
+     */
     fields: Fields;
+    /**
+     * The runner to be executed when the modal is submitted.
+     */
     runner: ModalRunner<E, Fields>;
 };
 
-type ToAPIOptions<Fields extends ModalFields> = {
-    component?: {
-        [K in keyof Fields]?: ModalFieldToToAPIType<Fields[K]>;
-    };
-    data?: string;
-};
+export type ModalToAPIOptions<Fields extends ModalFields> =
+    MakeOptionalIfAllKeysAreOptional<{
+        /**
+         * Values to be passed to the modal fields when converting to API format.
+         */
+        component: MakeOptionalIfUndefined<{
+            [K in keyof Fields]?: ModalFieldToToAPIType<Fields[K]>;
+        }>;
+        /**
+         * Optional data to append to the custom_id of the modal. Maximum 99 characters.
+         */
+        data?: string;
+    }>;
 
+/**
+ * A class representing a modal.
+ */
 export class Modal<E extends Env, Fields extends ModalFields = ModalFields>
     implements ModalOptions<E, Fields>
 {
@@ -54,7 +77,7 @@ export class Modal<E extends Env, Fields extends ModalFields = ModalFields>
     }
 
     private makeTextDisplayField(
-        field: TextDisplayField
+        field: ModalTextDisplayField
     ): APITextDisplayComponent {
         return {
             type: field.type,
@@ -139,11 +162,25 @@ export class Modal<E extends Env, Fields extends ModalFields = ModalFields>
         return label;
     }
 
-    toAPI(opts: ToAPIOptions<Fields>): APIModalInteractionResponseCallbackData {
+    /**
+     * Converts the modal to API format for sending.
+     *
+     * @param opts - The options to convert the modal to API format.
+     * @returns
+     */
+    toAPI(
+        opts: ModalToAPIOptions<Fields>
+    ): APIModalInteractionResponseCallbackData {
         const optionalValues: Record<
             string,
             APISelectMenuOption[] | string | undefined
-        > = opts.component === undefined ? {} : opts.component;
+        > =
+            "component" in opts
+                ? (opts.component as Record<
+                      string,
+                      APISelectMenuOption[] | string | undefined
+                  >)
+                : {};
         return {
             custom_id: String.fromCharCode(this.id) + (opts.data ?? ""),
             title: this.title,

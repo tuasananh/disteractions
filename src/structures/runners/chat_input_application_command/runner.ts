@@ -8,10 +8,10 @@ import type { HonoJsonResponse } from "../../../types/index.js";
 import type { ChatInputApplicationCommandInteraction } from "../../interactions/chat_input_application_command_interaction.js";
 import type {
     ChatInputApplicationCommandArguments,
-    CommandArgumentToMaybeOptionalType,
+    ChatInputApplicationCommandArgumentToMaybeOptionalType,
 } from "./arguments.js";
 
-type ValidChatInputInteractionResponse =
+export type ValidChatInputApplicationCommandInteractionResponse =
     | APIInteractionResponseChannelMessageWithSource
     | APIModalInteractionResponse
     | APIInteractionResponseLaunchActivity;
@@ -19,11 +19,11 @@ type ValidChatInputInteractionResponse =
 export type ChatInputApplicationCommandCallback<
     E extends Env,
     Args extends ChatInputApplicationCommandArguments<E>,
-    RetType extends void | HonoJsonResponse<ValidChatInputInteractionResponse>
+    RetType extends void | HonoJsonResponse<ValidChatInputApplicationCommandInteractionResponse>
 > = (
     interaction: ChatInputApplicationCommandInteraction<E>,
     args: {
-        [K in keyof Args]: CommandArgumentToMaybeOptionalType<
+        [K in keyof Args]: ChatInputApplicationCommandArgumentToMaybeOptionalType<
             Args[K]["type"],
             Args[K]["required"]
         >;
@@ -43,11 +43,11 @@ export type ChatInputApplicationCommandRunner<
           callback: ChatInputApplicationCommandCallback<
               E,
               Args,
-              HonoJsonResponse<ValidChatInputInteractionResponse>
+              HonoJsonResponse<ValidChatInputApplicationCommandInteractionResponse>
           >;
       }
     | ChatInputApplicationCommandCallback<
           E,
           Args,
-          HonoJsonResponse<ValidChatInputInteractionResponse>
+          HonoJsonResponse<ValidChatInputApplicationCommandInteractionResponse>
       >;

@@ -8,7 +8,7 @@ import type { Env } from "hono";
 import type { HonoJsonResponse } from "../../../types/index.js";
 import type { MessageComponentButtonInteraction } from "../../interactions/message_component_button_interaction.js";
 
-type ValidResponse =
+export type ValidMessageButtonInteractionResponse =
     | APIInteractionResponseChannelMessageWithSource
     | APIInteractionResponseLaunchActivity
     | APIModalInteractionResponse
@@ -16,7 +16,7 @@ type ValidResponse =
 
 export type ButtonCallback<
     E extends Env,
-    RetType extends void | HonoJsonResponse<ValidResponse>
+    RetType extends void | HonoJsonResponse<ValidMessageButtonInteractionResponse>
 > = (
     interaction: MessageComponentButtonInteraction<E>,
     data: string
@@ -29,6 +29,12 @@ export type ButtonRunner<E extends Env> =
       }
     | {
           shouldDefer?: false;
-          callback: ButtonCallback<E, HonoJsonResponse<ValidResponse>>;
+          callback: ButtonCallback<
+              E,
+              HonoJsonResponse<ValidMessageButtonInteractionResponse>
+          >;
       }
-    | ButtonCallback<E, HonoJsonResponse<ValidResponse>>;
+    | ButtonCallback<
+          E,
+          HonoJsonResponse<ValidMessageButtonInteractionResponse>
+      >;

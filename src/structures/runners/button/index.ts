@@ -5,19 +5,18 @@ import {
     type APIMessageComponentEmoji,
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
-import type { MakeOptionalIfUndefined } from "../../../utils/index.js";
+import type {
+    MakeOptionalIfUndefined,
+    OptionalKeys,
+} from "../../../utils/index.js";
 import type { ButtonRunner } from "./runner.js";
 export * from "./runner.js";
-
-type OptionalKeys<T> = {
-    [K in keyof T]?: T[K];
-};
 
 export type ButtonDefaultValues = OptionalKeys<
     Omit<APIButtonComponentWithCustomId, "custom_id" | "id" | "type">
 >;
 
-type ButtonStyleNoLinkAndPremium =
+export type ButtonStyleNoLinkAndPremium =
     | ButtonStyle.Danger
     | ButtonStyle.Primary
     | ButtonStyle.Secondary
@@ -33,7 +32,7 @@ export type ButtonOptions<E extends Env, D extends ButtonDefaultValues> = {
     defaultValues?: D;
 };
 
-type EitherLabelOrEmoji =
+export type EitherLabelOrEmoji =
     | {
           label: string;
           emoji?: APIMessageComponentEmoji;
@@ -43,19 +42,20 @@ type EitherLabelOrEmoji =
           emoji: APIMessageComponentEmoji;
       };
 
-type ToAPIOptions<D extends ButtonDefaultValues> = MakeOptionalIfUndefined<{
-    style: undefined extends D["style"]
-        ? ButtonStyleNoLinkAndPremium
-        : ButtonStyleNoLinkAndPremium | undefined;
-    disabled?: boolean;
-    data?: string;
-}> &
-    (D extends EitherLabelOrEmoji
-        ? {
-              label?: string;
-              emoji?: APIMessageComponentEmoji;
-          }
-        : EitherLabelOrEmoji);
+export type ButtonToAPIOptions<D extends ButtonDefaultValues> =
+    MakeOptionalIfUndefined<{
+        style: undefined extends D["style"]
+            ? ButtonStyleNoLinkAndPremium
+            : ButtonStyleNoLinkAndPremium | undefined;
+        disabled?: boolean;
+        data?: string;
+    }> &
+        (D extends EitherLabelOrEmoji
+            ? {
+                  label?: string;
+                  emoji?: APIMessageComponentEmoji;
+              }
+            : EitherLabelOrEmoji);
 
 export class Button<
     E extends Env,
@@ -72,7 +72,7 @@ export class Button<
         if (opts.defaultValues) this.defaultValues = opts.defaultValues;
     }
 
-    toAPI(opts: ToAPIOptions<D>): APIButtonComponentWithCustomId {
+    toAPI(opts: ButtonToAPIOptions<D>): APIButtonComponentWithCustomId {
         const button: APIButtonComponentWithCustomId = {
             type: ComponentType.Button,
             custom_id: String.fromCharCode(this.id) + (opts.data ?? ""),
