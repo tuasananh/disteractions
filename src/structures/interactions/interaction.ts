@@ -135,4 +135,27 @@ export class Interaction<E extends Env> {
             options
         );
     }
+
+    async getOriginalReply() {
+        return new Message(
+            this.ctx,
+            await this.ctx.discord.interactions.getOriginalReply(
+                this.data.application_id,
+                this.data.token
+            )
+        );
+    }
+
+    /**
+     * Deletes the initial reply to an interaction
+     *
+     * @param messageId - The id of the message to delete. If omitted, the original reply will be deleted
+     */
+    async deleteReply(messageId?: string) {
+        await this.ctx.discord.interactions.deleteReply(
+            this.data.application_id,
+            this.data.token,
+            messageId
+        );
+    }
 }
