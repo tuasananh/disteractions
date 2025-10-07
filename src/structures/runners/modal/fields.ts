@@ -63,15 +63,11 @@ type ModalField = TextDisplayField | TextInputField | StringSelectField;
 
 export type ModalFieldToToAPIType<F extends ModalField> =
     F extends TextDisplayField
-        ? undefined
+        ? never
         : F extends TextInputField
-        ? F["defaultValue"] extends string
-            ? string | undefined
-            : string
+        ? string
         : F extends StringSelectField
-        ? F["defaultOptions"] extends APISelectMenuOption[]
-            ? APISelectMenuOption[] | undefined
-            : APISelectMenuOption[]
+        ? APISelectMenuOption[]
         : never;
 
 export type ModalFields = Record<string, ModalField>;

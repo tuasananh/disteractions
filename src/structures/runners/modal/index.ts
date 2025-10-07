@@ -10,10 +10,6 @@ import {
 } from "@discordjs/core/http-only";
 import { type Env } from "hono";
 import type {
-    MakeOptionalIfAllKeysAreOptional,
-    MakeOptionalIfUndefined,
-} from "../../../utils/index.js";
-import type {
     ModalFields,
     ModalFieldToToAPIType,
     StringSelectField,
@@ -35,13 +31,12 @@ export type ModalOptions<E extends Env, Fields extends ModalFields> = {
     runner: ModalRunner<E, Fields>;
 };
 
-type ToAPIOptions<Fields extends ModalFields> =
-    MakeOptionalIfAllKeysAreOptional<{
-        component: MakeOptionalIfUndefined<{
-            [K in keyof Fields]: ModalFieldToToAPIType<Fields[K]>;
-        }>;
-        data?: string;
-    }>;
+type ToAPIOptions<Fields extends ModalFields> = {
+    component?: {
+        [K in keyof Fields]?: ModalFieldToToAPIType<Fields[K]>;
+    };
+    data?: string;
+};
 
 export class Modal<E extends Env, Fields extends ModalFields = ModalFields>
     implements ModalOptions<E, Fields>
@@ -145,13 +140,10 @@ export class Modal<E extends Env, Fields extends ModalFields = ModalFields>
     }
 
     toAPI(opts: ToAPIOptions<Fields>): APIModalInteractionResponseCallbackData {
-        const optionalValues =
-            "component" in opts
-                ? (opts.component as Record<
-                      string,
-                      string | APISelectMenuOption[]
-                  >)
-                : {};
+        const optionalValues: Record<
+            string,
+            APISelectMenuOption[] | string | undefined
+        > = opts.component === undefined ? {} : opts.component;
         return {
             custom_id: String.fromCharCode(this.id) + (opts.data ?? ""),
             title: this.title,
@@ -166,7 +158,9 @@ export class Modal<E extends Env, Fields extends ModalFields = ModalFields>
                         case ComponentType.TextInput: {
                             const optionalValue =
                                 name in optionalValues
-                                    ? (optionalValues[name] as string)
+                                    ? (optionalValues[name] as
+                                          | string
+                                          | undefined)
                                     : undefined;
                             return this.makeTextInputField(
                                 name,
@@ -177,9 +171,9 @@ export class Modal<E extends Env, Fields extends ModalFields = ModalFields>
                         case ComponentType.StringSelect: {
                             const optionalValue =
                                 name in optionalValues
-                                    ? (optionalValues[
-                                          name
-                                      ] as APISelectMenuOption[])
+                                    ? (optionalValues[name] as
+                                          | APISelectMenuOption[]
+                                          | undefined)
                                     : undefined;
                             return this.makeStringSelectField(
                                 name,
