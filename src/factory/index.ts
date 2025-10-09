@@ -1,12 +1,12 @@
 import type { Env } from "hono";
 import {
     Button,
-    ChatInputApplicationCommand,
+    ChatInputCommand,
     Modal,
     type ButtonDefaultValues,
     type ButtonOptions,
-    type ChatInputApplicationCommandArguments,
-    type ChatInputApplicationCommandOptions,
+    type ChatInputCommandArguments,
+    type ChatInputCommandOptions,
     type ModalFields,
     type ModalOptions,
 } from "../structures/index.js";
@@ -39,7 +39,7 @@ export class DisteractionsFactory<E extends Env> {
     /**
      * Creates a new slash command (chat input application command).
      *
-     * This method returns a factory function that creates {@link ChatInputApplicationCommand} instances
+     * This method returns a factory function that creates {@link ChatInputCommand} instances
      * with type-safe arguments and options. The returned command can be registered with Discord
      * and handled by the interaction system.
      *
@@ -64,10 +64,10 @@ export class DisteractionsFactory<E extends Env> {
      * ```
      */
     get slashCommand() {
-        return function <Args extends ChatInputApplicationCommandArguments<E>>(
-            opts: ChatInputApplicationCommandOptions<E, Args>
+        return function <Args extends ChatInputCommandArguments<E>>(
+            opts: ChatInputCommandOptions<E, Args>
         ) {
-            return new ChatInputApplicationCommand<E, Args>(opts);
+            return new ChatInputCommand<E, Args>(opts);
         };
     }
 
