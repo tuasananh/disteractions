@@ -1,13 +1,16 @@
-import { ApplicationCommandOptionType } from "@discordjs/core/http-only";
+import {
+    ApplicationCommandOptionType,
+    MessageFlags,
+} from "@discordjs/core/http-only";
 import type { Env } from "hono";
 import type {
-    ChatInputApplicationCommandArguments,
-    ChatInputApplicationCommandCallback,
-    ChatInputApplicationCommandInteraction,
+    ChatInputCommandArguments,
+    ChatInputCommandCallback,
+    ChatInputCommandInteraction,
 } from "../../structures/index.js";
 
 export async function chatInputApplicationCommandHandler<E extends Env>(
-    interaction: ChatInputApplicationCommandInteraction<E>
+    interaction: ChatInputCommandInteraction<E>
 ): Promise<Response> {
     const name = interaction.commandName;
     const command = interaction.ctx.commandMap.get(name);
@@ -19,16 +22,18 @@ export async function chatInputApplicationCommandHandler<E extends Env>(
     const invoked_user = interaction.user;
 
     if (
-        !invoked_user ||
-        ((command.ownerOnly ?? false) &&
-            invoked_user.id !== interaction.ctx.ownerId)
+        (command.ownerOnly ?? false) &&
+        invoked_user.id !== interaction.ctx.ownerId
     ) {
-        return interaction.jsonReply("Permissions denied.");
+        return interaction.jsonReply({
+            content: "This command is owner-only.",
+            flags: MessageFlags.Ephemeral,
+        });
     }
 
     const inputMap: Record<string, string | number | boolean | undefined> = {};
 
-    for (const opt of interaction.data.data.options ?? []) {
+    for (const opt of interaction.options ?? []) {
         switch (opt.type) {
             case ApplicationCommandOptionType.Subcommand:
             case ApplicationCommandOptionType.SubcommandGroup:
@@ -78,9 +83,9 @@ export async function chatInputApplicationCommandHandler<E extends Env>(
     }
 
     const promise = async (
-        callback: ChatInputApplicationCommandCallback<
+        callback: ChatInputCommandCallback<
             E,
-            ChatInputApplicationCommandArguments<E>,
+            ChatInputCommandArguments<E>,
             void
         >
     ) => {
@@ -95,5 +100,5 @@ export async function chatInputApplicationCommandHandler<E extends Env>(
         promise(command.runner.callback)
     );
 
-    return interaction.jsonDefer();
+    return interaction.jsonDeferReply();
 }

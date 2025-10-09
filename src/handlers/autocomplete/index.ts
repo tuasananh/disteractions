@@ -1,12 +1,14 @@
 import type { Env } from "hono";
-import type { ApplicationCommandAutocompleteInteraction } from "../../structures/interactions/application_command_autocomplete_interaction.js";
+import type { AutocompleteInteraction } from "../../structures/index.js";
 
 export async function applicationCommandAutocompleteHandler<E extends Env>(
-    interaction: ApplicationCommandAutocompleteInteraction<E>
+    interaction: AutocompleteInteraction<E>
 ): Promise<Response> {
     const command = interaction.ctx.commandMap.get(interaction.commandName);
     if (!command) return interaction.badRequest();
-    const focusedOption = interaction.getFocusedOption();
+    const focusedOption = interaction.options.find(
+        (opt) => "focused" in opt && opt.focused
+    );
     if (!focusedOption) return interaction.badRequest();
     if (!command.arguments) return interaction.badRequest();
     const argument = command.arguments[focusedOption.name];
@@ -18,5 +20,5 @@ export async function applicationCommandAutocompleteHandler<E extends Env>(
         interaction,
         focusedOption.value
     );
-    return interaction.jsonRespond<string | number>(choices);
+    return interaction.jsonRespond(choices);
 }

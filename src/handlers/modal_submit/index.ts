@@ -9,7 +9,7 @@ import type {
 export async function modalSubmitHandler<E extends Env>(
     interaction: ModalSubmitInteraction<E>
 ): Promise<Response> {
-    const modalId = interaction.custom_id.at(0)?.charCodeAt(0);
+    const modalId = interaction.customId.at(0)?.charCodeAt(0);
     if (modalId === undefined) return interaction.badRequest();
 
     const modal = interaction.ctx.modalMap.get(modalId);
@@ -18,11 +18,11 @@ export async function modalSubmitHandler<E extends Env>(
         return interaction.badRequest();
     }
 
-    const data = interaction.custom_id.slice(1);
+    const data = interaction.customId.slice(1);
 
     const args: Record<string, string | string[]> = {};
 
-    interaction.data.data.components.forEach((value) => {
+    interaction.components.forEach((value) => {
         switch (value.type) {
             case ComponentType.ActionRow:
                 break;
@@ -62,5 +62,5 @@ export async function modalSubmitHandler<E extends Env>(
 
     interaction.ctx.hono.executionCtx.waitUntil(promise(modal.runner.callback));
 
-    return interaction.jsonDefer();
+    return interaction.jsonDeferReply();
 }

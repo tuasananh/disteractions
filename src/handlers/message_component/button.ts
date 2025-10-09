@@ -1,19 +1,19 @@
 import type { Env } from "hono";
 import type {
     ButtonCallback,
-    MessageComponentButtonInteraction,
+    ButtonInteraction,
 } from "../../structures/index.js";
 
 export async function messageComponentButtonHandler<E extends Env>(
-    interaction: MessageComponentButtonInteraction<E>
+    interaction: ButtonInteraction<E>
 ): Promise<Response> {
-    const buttonId = interaction.custom_id.at(0)?.charCodeAt(0);
+    const buttonId = interaction.customId.at(0)?.charCodeAt(0);
 
     if (buttonId === undefined) return interaction.badRequest();
 
     const button = interaction.ctx.buttonMap.get(buttonId);
 
-    const data = interaction.custom_id.slice(1);
+    const data = interaction.customId.slice(1);
 
     if (!button) {
         return interaction.badRequest();
@@ -39,5 +39,5 @@ export async function messageComponentButtonHandler<E extends Env>(
         promise(button.runner.callback)
     );
 
-    return interaction.jsonDefer();
+    return interaction.jsonDeferReply();
 }
