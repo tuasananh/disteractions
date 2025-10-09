@@ -1,3 +1,4 @@
+import { ButtonBuilder } from "@discordjs/builders";
 import {
     ButtonStyle,
     ComponentType,
@@ -44,7 +45,7 @@ export type EitherLabelOrEmoji =
 
 export type ButtonToAPIOptions<D extends ButtonDefaultValues> =
     MakeOptionalIfUndefined<{
-        style: undefined extends D["style"]
+        style: D["style"] extends undefined
             ? ButtonStyleNoLinkAndPremium
             : ButtonStyleNoLinkAndPremium | undefined;
         disabled?: boolean;
@@ -102,5 +103,30 @@ export class Button<
         }
 
         return button;
+    }
+
+    toBuilder(opts: ButtonToAPIOptions<D>): ButtonBuilder {
+        const builder = new ButtonBuilder();
+        builder.setCustomId(String(this.id) + (opts.data ?? ""));
+
+        const style =
+            "style" in opts && opts.style !== undefined
+                ? (opts.style as ButtonStyleNoLinkAndPremium)
+                : this.defaultValues?.style ?? ButtonStyle.Secondary;
+        builder.setStyle(style);
+
+        const disabled =
+            opts.disabled !== undefined
+                ? opts.disabled
+                : this.defaultValues?.disabled;
+        if (disabled !== undefined) builder.setDisabled(disabled);
+
+        const label = opts.label ?? this.defaultValues?.label;
+        if (label !== undefined) builder.setLabel(label);
+
+        const emoji = opts.emoji ?? this.defaultValues?.emoji;
+        if (emoji !== undefined) builder.setEmoji(emoji);
+
+        return builder;
     }
 }

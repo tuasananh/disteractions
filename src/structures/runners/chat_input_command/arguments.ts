@@ -9,14 +9,14 @@
 import type { ApplicationCommandOptionType } from "@discordjs/core/http-only";
 import type { Env } from "hono";
 import type { RequiredIf } from "../../../utils/index.js";
-import type { ApplicationCommandAutocompleteInteraction } from "../../interactions/application_command_autocomplete_interaction.js";
+import type { AutocompleteInteraction } from "../../interactions/autocomplete_interaction.js";
 
 /**
  * Maps Discord application command option types to their corresponding TypeScript types.
  *
  * This utility type ensures type safety when working with command argument values.
  */
-export type ChatInputApplicationCommandArgumentToType<
+export type ChatInputCommandArgumentToType<
     T extends ApplicationCommandOptionType
 > = T extends
     | ApplicationCommandOptionType.Integer
@@ -45,17 +45,17 @@ export type ChatInputApplicationCommandArgumentToType<
  * // Result: string | undefined
  * ```
  */
-export type ChatInputApplicationCommandArgumentToMaybeOptionalType<
+export type ChatInputCommandArgumentToMaybeOptionalType<
     T extends ApplicationCommandOptionType,
     R extends boolean | undefined
-> = RequiredIf<ChatInputApplicationCommandArgumentToType<T>, R>;
+> = RequiredIf<ChatInputCommandArgumentToType<T>, R>;
 
 /**
  * Union type for defining whether an argument is required or optional.
  *
  * This ensures type safety at compile time for the required property.
  */
-export type ChatInputApplicationCommandArgumentSharedRequired =
+export type ChatInputCommandArgumentSharedRequired =
     | {
           /**
            * Whether this argument is required or not. Defaults to `false`.
@@ -76,7 +76,7 @@ export type ChatInputApplicationCommandArgumentSharedRequired =
 /**
  * Shared description property for all argument types.
  */
-export type ChatInputApplicationCommandArgumentSharedDescription = {
+export type ChatInputCommandArgumentSharedDescription = {
     /**
      * The description of the argument. Between 1 and 100 characters.
      *
@@ -91,10 +91,10 @@ export type ChatInputApplicationCommandArgumentSharedDescription = {
  *
  * Combines required status, description, and the specific option type.
  */
-export type ChatInputApplicationCommandArgumentBase<
+export type ChatInputCommandArgumentBase<
     T extends ApplicationCommandOptionType
-> = ChatInputApplicationCommandArgumentSharedRequired &
-    ChatInputApplicationCommandArgumentSharedDescription & {
+> = ChatInputCommandArgumentSharedRequired &
+    ChatInputCommandArgumentSharedDescription & {
         /**
          * The Discord application command option type.
          *
@@ -108,7 +108,7 @@ export type ChatInputApplicationCommandArgumentBase<
  *
  * Used by both integer and number argument types to define valid ranges.
  */
-export type ChatInputApplicationCommandArgumentSharedMinMax = {
+export type ChatInputCommandArgumentSharedMinMax = {
     /**
      * The minimum value for the argument.
      *
@@ -138,7 +138,7 @@ export type ChatInputApplicationCommandArgumentSharedMinMax = {
  * };
  * ```
  */
-export type ChatInputApplicationCommandArgumentAutocompleteCallback<
+export type ChatInputCommandArgumentAutocompleteCallback<
     E extends Env,
     ChoiceType
 > = (
@@ -147,7 +147,7 @@ export type ChatInputApplicationCommandArgumentAutocompleteCallback<
      *
      * Provides access to the context and user information.
      */
-    interaction: ApplicationCommandAutocompleteInteraction<E>,
+    interaction: AutocompleteInteraction<E>,
     /**
      * The current value of the argument being autocompleted.
      *
@@ -163,10 +163,7 @@ export type ChatInputApplicationCommandArgumentAutocompleteCallback<
  * Arguments can either have predefined choices OR autocomplete functionality,
  * but not both simultaneously. This type enforces that constraint.
  */
-export type ChatInputApplicationCommandArgumentChoiceWrapper<
-    E extends Env,
-    ChoiceType
-> =
+export type ChatInputCommandArgumentChoiceWrapper<E extends Env, ChoiceType> =
     | {
           /**
            * Whether this argument supports autocomplete. Defaults to `false`.
@@ -180,7 +177,7 @@ export type ChatInputApplicationCommandArgumentChoiceWrapper<
            *
            * This function should return an array of suggestions based on the current input.
            */
-          autocompleteCallback: ChatInputApplicationCommandArgumentAutocompleteCallback<
+          autocompleteCallback: ChatInputCommandArgumentAutocompleteCallback<
               E,
               ChoiceType
           >;
@@ -211,15 +208,15 @@ export type ChatInputApplicationCommandArgumentChoiceWrapper<
  *
  * @example
  * ```typescript
- * const arg: ChatInputApplicationCommandBooleanArgument = {
+ * const arg: ChatInputCommandBooleanArgument = {
  *   type: ApplicationCommandOptionType.Boolean,
  *   description: "Enable notifications",
  *   required: true
  * };
  * ```
  */
-export type ChatInputApplicationCommandBooleanArgument =
-    ChatInputApplicationCommandArgumentBase<ApplicationCommandOptionType.Boolean>;
+export type ChatInputCommandBooleanArgument =
+    ChatInputCommandArgumentBase<ApplicationCommandOptionType.Boolean>;
 
 /**
  * Integer argument type for slash commands.
@@ -229,7 +226,7 @@ export type ChatInputApplicationCommandBooleanArgument =
  *
  * @example
  * ```typescript
- * const arg: ChatInputApplicationCommandIntegerArgument<Env> = {
+ * const arg: ChatInputCommandIntegerArgument<Env> = {
  *   type: ApplicationCommandOptionType.Integer,
  *   description: "Number of items",
  *   required: true,
@@ -238,10 +235,10 @@ export type ChatInputApplicationCommandBooleanArgument =
  * };
  * ```
  */
-export type ChatInputApplicationCommandIntegerArgument<E extends Env> =
-    ChatInputApplicationCommandArgumentBase<ApplicationCommandOptionType.Integer> &
-        ChatInputApplicationCommandArgumentSharedMinMax &
-        ChatInputApplicationCommandArgumentChoiceWrapper<E, number>;
+export type ChatInputCommandIntegerArgument<E extends Env> =
+    ChatInputCommandArgumentBase<ApplicationCommandOptionType.Integer> &
+        ChatInputCommandArgumentSharedMinMax &
+        ChatInputCommandArgumentChoiceWrapper<E, number>;
 
 /**
  * String argument type for slash commands.
@@ -251,7 +248,7 @@ export type ChatInputApplicationCommandIntegerArgument<E extends Env> =
  *
  * @example
  * ```typescript
- * const arg: ChatInputApplicationCommandStringArgument<Env> = {
+ * const arg: ChatInputCommandStringArgument<Env> = {
  *   type: ApplicationCommandOptionType.String,
  *   description: "User's name",
  *   required: true,
@@ -260,9 +257,9 @@ export type ChatInputApplicationCommandIntegerArgument<E extends Env> =
  * };
  * ```
  */
-export type ChatInputApplicationCommandStringArgument<E extends Env> =
-    ChatInputApplicationCommandArgumentBase<ApplicationCommandOptionType.String> &
-        ChatInputApplicationCommandArgumentChoiceWrapper<E, string> & {
+export type ChatInputCommandStringArgument<E extends Env> =
+    ChatInputCommandArgumentBase<ApplicationCommandOptionType.String> &
+        ChatInputCommandArgumentChoiceWrapper<E, string> & {
             /**
              * The minimum length for string values.
              *
@@ -285,7 +282,7 @@ export type ChatInputApplicationCommandStringArgument<E extends Env> =
  *
  * @example
  * ```typescript
- * const arg: ChatInputApplicationCommandNumberArgument<Env> = {
+ * const arg: ChatInputCommandNumberArgument<Env> = {
  *   type: ApplicationCommandOptionType.Number,
  *   description: "Price in USD",
  *   required: true,
@@ -294,21 +291,21 @@ export type ChatInputApplicationCommandStringArgument<E extends Env> =
  * };
  * ```
  */
-export type ChatInputApplicationCommandNumberArgument<E extends Env> =
-    ChatInputApplicationCommandArgumentBase<ApplicationCommandOptionType.Number> &
-        ChatInputApplicationCommandArgumentSharedMinMax &
-        ChatInputApplicationCommandArgumentChoiceWrapper<E, number>;
+export type ChatInputCommandNumberArgument<E extends Env> =
+    ChatInputCommandArgumentBase<ApplicationCommandOptionType.Number> &
+        ChatInputCommandArgumentSharedMinMax &
+        ChatInputCommandArgumentChoiceWrapper<E, number>;
 
 /**
  * Union type representing any valid command argument.
  *
  * This type encompasses all supported argument types for slash commands.
  */
-export type ChatInputApplicationCommandArgument<E extends Env> =
-    | ChatInputApplicationCommandIntegerArgument<E>
-    | ChatInputApplicationCommandBooleanArgument
-    | ChatInputApplicationCommandNumberArgument<E>
-    | ChatInputApplicationCommandStringArgument<E>;
+export type ChatInputCommandArgument<E extends Env> =
+    | ChatInputCommandIntegerArgument<E>
+    | ChatInputCommandBooleanArgument
+    | ChatInputCommandNumberArgument<E>
+    | ChatInputCommandStringArgument<E>;
 
 /**
  * Type definition for the complete set of arguments for a slash command.
@@ -318,7 +315,7 @@ export type ChatInputApplicationCommandArgument<E extends Env> =
  *
  * @example
  * ```typescript
- * const arguments: ChatInputApplicationCommandArguments<Env> = {
+ * const arguments: ChatInputCommandArguments<Env> = {
  *   user: {
  *     type: ApplicationCommandOptionType.User,
  *     description: "Target user",
@@ -332,7 +329,7 @@ export type ChatInputApplicationCommandArgument<E extends Env> =
  * };
  * ```
  */
-export type ChatInputApplicationCommandArguments<E extends Env> = Record<
+export type ChatInputCommandArguments<E extends Env> = Record<
     string,
-    ChatInputApplicationCommandArgument<E>
+    ChatInputCommandArgument<E>
 >;

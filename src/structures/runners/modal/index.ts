@@ -1,4 +1,11 @@
 import {
+    LabelBuilder,
+    ModalBuilder,
+    StringSelectMenuBuilder,
+    TextDisplayBuilder,
+    TextInputBuilder,
+} from "@discordjs/builders";
+import {
     ComponentType,
     type APILabelComponent,
     type APIModalInteractionResponseCallbackComponent,
@@ -222,5 +229,103 @@ export class Modal<E extends Env, Fields extends ModalFields = ModalFields>
                 }
             ),
         };
+    }
+
+    toBuilder(opts: ModalToAPIOptions<Fields>): ModalBuilder {
+        const builder = new ModalBuilder();
+        const optionalValues: Record<
+            string,
+            APISelectMenuOption[] | string | undefined
+        > =
+            "component" in opts
+                ? (opts.component as Record<
+                      string,
+                      APISelectMenuOption[] | string | undefined
+                  >)
+                : {};
+        builder.setCustomId(String.fromCharCode(this.id) + (opts.data ?? ""));
+        builder.setTitle(this.title);
+        Object.entries(this.fields).forEach(([name, component]) => {
+            switch (component.type) {
+                case ComponentType.TextDisplay: {
+                    const textDisplay = new TextDisplayBuilder();
+                    textDisplay.setContent(component.content);
+                    builder.addTextDisplayComponents(textDisplay);
+                    break;
+                }
+
+                case ComponentType.TextInput: {
+                    const optionalValue =
+                        name in optionalValues
+                            ? (optionalValues[name] as string | undefined)
+                            : undefined;
+                    const textInput = new TextInputBuilder();
+                    textInput.setCustomId(name);
+                    textInput.setStyle(component.style);
+
+                    if (component.maxLength !== undefined)
+                        textInput.setMaxLength(component.maxLength);
+                    if (component.minLength !== undefined)
+                        textInput.setMinLength(component.minLength);
+                    if (component.placeholder !== undefined)
+                        textInput.setPlaceholder(component.placeholder);
+
+                    if (component.required !== undefined)
+                        textInput.setRequired(component.required);
+                    else textInput.setRequired(false); // Make it false because i prefer it that way.
+
+                    if (optionalValue !== undefined) {
+                        textInput.setValue(optionalValue);
+                    } else if (component.defaultValue !== undefined)
+                        textInput.setValue(component.defaultValue);
+
+                    const label = new LabelBuilder();
+                    label.setLabel(component.label);
+                    label.setTextInputComponent(textInput);
+
+                    if (component.description !== undefined)
+                        label.setDescription(component.description);
+                    builder.addLabelComponents(label);
+                    break;
+                }
+                case ComponentType.StringSelect: {
+                    const optionalValue =
+                        name in optionalValues
+                            ? (optionalValues[name] as
+                                  | APISelectMenuOption[]
+                                  | undefined)
+                            : undefined;
+                    const stringSelect = new StringSelectMenuBuilder();
+                    stringSelect.setCustomId(name);
+                    if (component.defaultOptions !== undefined)
+                        stringSelect.setOptions(component.defaultOptions);
+
+                    if (component.maxValues !== undefined)
+                        stringSelect.setMaxValues(component.maxValues);
+                    if (component.minValues !== undefined)
+                        stringSelect.setMinValues(component.minValues);
+                    if (component.placeholder !== undefined)
+                        stringSelect.setPlaceholder(component.placeholder);
+
+                    if (component.required !== undefined)
+                        stringSelect.setRequired(component.required);
+                    else stringSelect.setRequired(false); // Make it false because i prefer it that way.
+
+                    if (optionalValue !== undefined) {
+                        stringSelect.setOptions(optionalValue);
+                    }
+
+                    const label = new LabelBuilder();
+                    label.setLabel(component.label);
+                    label.setStringSelectMenuComponent(stringSelect);
+
+                    if (component.description !== undefined)
+                        label.setDescription(component.description);
+                    builder.addLabelComponents(label);
+                    break;
+                }
+            }
+        });
+        return builder;
     }
 }

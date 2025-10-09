@@ -1,7 +1,7 @@
 import type { API } from "@discordjs/core/http-only";
 import type { Context, Env } from "hono";
 import { makeApiFromToken } from "../utils/index.js";
-import type { ChatInputApplicationCommand } from "./runners/chat_input_application_command/index.js";
+import type { ChatInputCommand } from "./runners/chat_input_command/index.js";
 import type { Button } from "./runners/index.js";
 import type { Modal } from "./runners/modal/index.js";
 
@@ -46,7 +46,7 @@ export type DisteractionContextOptions<E extends Env> = {
      * These commands will be automatically registered and made available
      * for execution when matching interactions are received.
      */
-    commands?: ChatInputApplicationCommand<E>[];
+    commands?: ChatInputCommand<E>[];
     /**
      * The list of reactive buttons to be handled by this context.
      *
@@ -99,17 +99,17 @@ export class DisteractionContext<E extends Env>
     /** Discord user ID of the bot owner (for owner-only commands) */
     ownerId?: string;
     /** Array of registered slash commands */
-    commands: ChatInputApplicationCommand<E>[];
+    commands: ChatInputCommand<E>[];
     /** Array of registered reactive buttons */
     buttons: Button<E>[];
     /** Array of registered modals */
     modals: Modal<E>[];
     /**
-     * A map of command names to their corresponding {@link ChatInputApplicationCommand} instances.
+     * A map of command names to their corresponding {@link ChatInputCommand} instances.
      *
      * This provides O(1) lookup time for command resolution during interaction handling.
      */
-    commandMap: Map<string, ChatInputApplicationCommand<E>>;
+    commandMap: Map<string, ChatInputCommand<E>>;
     /**
      * A map of button IDs to their corresponding {@link Button} instances.
      *

@@ -9,14 +9,14 @@ import {
     type RESTPostAPIApplicationCommandsJSONBody,
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
-import type { ChatInputApplicationCommandArguments } from "./arguments.js";
-import type { ChatInputApplicationCommandRunner } from "./runner.js";
+import type { ChatInputCommandArguments } from "./arguments.js";
+import type { ChatInputCommandRunner } from "./runner.js";
 export * from "./arguments.js";
 export * from "./runner.js";
 
-export type ChatInputApplicationCommandOptions<
+export type ChatInputCommandOptions<
     E extends Env,
-    Args extends ChatInputApplicationCommandArguments<E>
+    Args extends ChatInputCommandArguments<E>
 > = {
     name: string;
     description: string;
@@ -24,13 +24,13 @@ export type ChatInputApplicationCommandOptions<
     nsfw?: boolean;
     arguments?: Args;
     ownerOnly?: boolean;
-    runner: ChatInputApplicationCommandRunner<E, Args>;
+    runner: ChatInputCommandRunner<E, Args>;
 };
 
-export class ChatInputApplicationCommand<
+export class ChatInputCommand<
     E extends Env,
-    Args extends ChatInputApplicationCommandArguments<E> = ChatInputApplicationCommandArguments<E>
-> implements ChatInputApplicationCommandOptions<E, Args>
+    Args extends ChatInputCommandArguments<E> = ChatInputCommandArguments<E>
+> implements ChatInputCommandOptions<E, Args>
 {
     readonly name: string;
     readonly description: string;
@@ -38,9 +38,9 @@ export class ChatInputApplicationCommand<
     readonly nsfw?: boolean;
     readonly arguments?: Args;
     readonly ownerOnly?: boolean;
-    readonly runner: ChatInputApplicationCommandRunner<E, Args>;
+    readonly runner: ChatInputCommandRunner<E, Args>;
 
-    constructor(opts: ChatInputApplicationCommandOptions<E, Args>) {
+    constructor(opts: ChatInputCommandOptions<E, Args>) {
         this.name = opts.name;
         this.description = opts.description;
         if (opts.arguments) this.arguments = opts.arguments;

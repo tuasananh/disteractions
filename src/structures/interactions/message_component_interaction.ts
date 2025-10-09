@@ -1,24 +1,30 @@
 import {
     ComponentType,
+    InteractionType,
     type APIMessageComponentInteraction,
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
+import { Message } from "../discord_objects/message.js";
 import type { DisteractionContext } from "../disteraction_context.js";
-import { Interaction } from "./interaction.js";
-import type { MessageComponentButtonInteraction } from "./message_component_button_interaction.js";
+import { RepliableInteraction } from "./repliable_interaction.js";
 
-export class MessageComponentInteraction<E extends Env> extends Interaction<E> {
-    data: APIMessageComponentInteraction;
+export class MessageComponentInteraction<
+    E extends Env
+> extends RepliableInteraction<E> {
+    declare rawData: APIMessageComponentInteraction;
+    declare type: InteractionType.MessageComponent;
+
+    message: Message<E>;
+    customId: string;
+    componentType: ComponentType;
 
     constructor(
         ctx: DisteractionContext<E>,
         data: APIMessageComponentInteraction
     ) {
         super(ctx, data);
-        this.data = data;
-    }
-
-    isButton(): this is MessageComponentButtonInteraction<E> {
-        return this.data.data.component_type === ComponentType.Button;
+        this.message = new Message(ctx, data.message);
+        this.customId = data.data.custom_id;
+        this.componentType = data.data.component_type;
     }
 }
