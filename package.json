@@ -28,21 +28,21 @@
     },
     "homepage": "https://github.com/tuasananh/disteractions",
     "devDependencies": {
-        "@eslint/js": "^9.36.0",
-        "eslint": "^9.36.0",
+        "@eslint/js": "^9.37.0",
+        "eslint": "^9.37.0",
         "eslint-plugin-tsdoc": "^0.4.0",
         "globals": "^16.4.0",
         "typedoc": "^0.28.13",
-        "typescript": "^5.9.2",
-        "typescript-eslint": "^8.45.0"
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.46.0"
     },
     "dependencies": {
-        "@discordjs/builders": "^1.11.3",
-        "@discordjs/core": "^2.2.2",
+        "@discordjs/builders": "^1.12.2",
+        "@discordjs/core": "^2.3.0",
         "@discordjs/formatters": "^0.6.1",
         "@discordjs/rest": "^2.6.0",
         "@sapphire/snowflake": "^3.5.5",
-        "hono": "^4.9.9",
+        "hono": "^4.9.10",
         "tweetnacl": "^1.0.3"
     }
 }
