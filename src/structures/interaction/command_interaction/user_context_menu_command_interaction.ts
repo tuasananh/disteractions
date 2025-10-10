@@ -3,7 +3,7 @@ import type {
     ApplicationCommandType,
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
-import type { DisteractionContext } from "../disteraction_context.js";
+import type { DisteractionContext } from "../../disteraction_context.js";
 import { ContextMenuCommandInteraction } from "./context_menu_command_interaction.js";
 
 export class UserContextMenuCommandInteraction<

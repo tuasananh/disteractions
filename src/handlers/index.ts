@@ -25,38 +25,26 @@ import {
 import type { Context, Env } from "hono";
 import nacl from "tweetnacl";
 import {
-    DisteractionContext,
-    type DisteractionContextOptions,
-} from "../structures/disteraction_context.js";
-import {
     AutocompleteInteraction,
     ButtonInteraction,
-    ChatInputCommandInteraction,
-    ModalSubmitInteraction,
-} from "../structures/index.js";
-import {
     ChannelSelectMenuInteraction,
-    type APIChannelSelectMenuInteraction,
-} from "../structures/interactions/channel_select_menu_interaction.js";
-import {
+    ChatInputCommandInteraction,
+    DisteractionContext,
     MentionableSelectMenuInteraction,
-    type APIMentionableSelectMenuInteraction,
-} from "../structures/interactions/mentionable_select_menu_interaction.js";
-import { MessageContextMenuCommandInteraction } from "../structures/interactions/message_context_menu_interaction.js";
-import { PrimaryEntryPointCommandInteraction } from "../structures/interactions/primary_entry_point_command_interaction.js";
-import {
+    MessageContextMenuCommandInteraction,
+    ModalSubmitInteraction,
+    PrimaryEntryPointCommandInteraction,
     RoleSelectMenuInteraction,
-    type APIRoleSelectMenuInteraction,
-} from "../structures/interactions/role_select_menu_interaction.js";
-import {
     StringSelectMenuInteraction,
-    type APIStringSelectMenuInteraction,
-} from "../structures/interactions/string_select_menu_interaction.js";
-import { UserContextMenuCommandInteraction } from "../structures/interactions/user_context_menu_command_interaction.js";
-import {
+    UserContextMenuCommandInteraction,
     UserSelectMenuInteraction,
+    type APIChannelSelectMenuInteraction,
+    type APIMentionableSelectMenuInteraction,
+    type APIRoleSelectMenuInteraction,
+    type APIStringSelectMenuInteraction,
     type APIUserSelectMenuInteraction,
-} from "../structures/interactions/user_select_menu_interaction.js";
+    type DisteractionContextOptions,
+} from "../structures/index.js";
 import { applicationCommandAutocompleteHandler } from "./autocomplete/index.js";
 import { applicationCommandHandler } from "./command/index.js";
 import { messageComponentHandler } from "./message_component/index.js";

@@ -5,10 +5,15 @@ import type {
     Snowflake,
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
-import { DisteractionsError } from "../../errors/disteraction_error.js";
-import { ErrorCodes } from "../../errors/error_codes.js";
-import type { DisteractionContext } from "../disteraction_context.js";
-import { RepliableInteraction } from "./repliable_interaction.js";
+import { DisteractionsError } from "../../../errors/disteraction_error.js";
+import { ErrorCodes } from "../../../errors/error_codes.js";
+import type { DisteractionContext } from "../../disteraction_context.js";
+import { RepliableInteraction } from "../repliable_interaction.js";
+export * from "./chat_input_command_interaction.js";
+export * from "./context_menu_command_interaction.js";
+export * from "./message_context_menu_interaction.js";
+export * from "./primary_entry_point_command_interaction.js";
+export * from "./user_context_menu_command_interaction.js";
 
 /**
  * Represents a command interaction.

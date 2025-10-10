@@ -9,7 +9,7 @@
 import type { ApplicationCommandOptionType } from "@discordjs/core/http-only";
 import type { Env } from "hono";
 import type { RequiredIf } from "../../../utils/index.js";
-import type { AutocompleteInteraction } from "../../interactions/autocomplete_interaction.js";
+import type { AutocompleteInteraction } from "../../interaction/autocomplete_interaction.js";
 
 /**
  * Maps Discord application command option types to their corresponding TypeScript types.

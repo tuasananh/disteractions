@@ -10,7 +10,7 @@ import {
 import type { RawFile } from "@discordjs/rest";
 import type { Env } from "hono";
 import { Message } from "../discord_objects/message.js";
-import { BaseInteraction } from "./base_interaction.js";
+import { BaseInteraction } from "./index.js";
 
 export type InteractionMessageOptions =
     | (APIInteractionResponseCallbackData & {

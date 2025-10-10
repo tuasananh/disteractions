@@ -9,7 +9,7 @@ import {
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
 import type { DisteractionContext } from "../disteraction_context.js";
-import { BaseInteraction } from "./base_interaction.js";
+import { BaseInteraction } from "./index.js";
 
 export type ApplicationCommandOptionChoiceData<
     Value extends number | string = number | string

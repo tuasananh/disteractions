@@ -6,8 +6,8 @@ import type {
     InteractionType,
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
-import type { DisteractionContext } from "../disteraction_context.js";
-import { MessageComponentInteraction } from "./message_component_interaction.js";
+import type { DisteractionContext } from "../../disteraction_context.js";
+import { MessageComponentInteraction } from "./index.js";
 
 export type APIStringSelectMenuInteraction =
     APIMessageComponentSelectMenuInteraction &

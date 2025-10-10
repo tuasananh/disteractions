@@ -1,5 +1,6 @@
 import type {
     APIBaseInteraction,
+    APIInteractionDataResolvedGuildMember,
     APIMessageComponentSelectMenuInteraction,
     APIMessageMentionableSelectInteractionData,
     ComponentType,
@@ -7,10 +8,10 @@ import type {
     Snowflake,
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
-import { Role } from "../discord_objects/role.js";
-import { User } from "../discord_objects/user.js";
-import type { DisteractionContext } from "../disteraction_context.js";
-import { MessageComponentInteraction } from "./message_component_interaction.js";
+import { Role } from "../../discord_objects/role.js";
+import { User } from "../../discord_objects/user.js";
+import type { DisteractionContext } from "../../disteraction_context.js";
+import { MessageComponentInteraction } from "./index.js";
 
 export type APIMentionableSelectMenuInteraction =
     APIMessageComponentSelectMenuInteraction &
@@ -28,6 +29,7 @@ export class MentionableSelectMenuInteraction<
     values: Snowflake[];
     roles: Map<Snowflake, Role<E>>;
     users: Map<Snowflake, User<E>>;
+    members: Map<Snowflake, APIInteractionDataResolvedGuildMember>;
 
     constructor(
         ctx: DisteractionContext<E>,
@@ -36,10 +38,11 @@ export class MentionableSelectMenuInteraction<
         super(ctx, data);
         this.values = data.data.values;
         this.roles = new Map();
-        const { roles, users } = data.data.resolved;
+        const { roles, users, members } = data.data.resolved;
 
         this.roles = new Map();
         this.users = new Map();
+        this.members = new Map();
 
         if (roles) {
             for (const [id, user] of Object.entries(roles)) {
@@ -50,6 +53,12 @@ export class MentionableSelectMenuInteraction<
         if (users) {
             for (const [id, user] of Object.entries(users)) {
                 this.users.set(id, new User(ctx, user));
+            }
+        }
+
+        if (members) {
+            for (const [id, member] of Object.entries(members)) {
+                this.members.set(id, member);
             }
         }
     }

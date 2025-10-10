@@ -4,8 +4,8 @@ import type {
     Snowflake,
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
-import type { DisteractionContext } from "../disteraction_context.js";
-import { CommandInteraction } from "./command_interaction.js";
+import type { DisteractionContext } from "../../disteraction_context.js";
+import { CommandInteraction } from "./index.js";
 
 export class ContextMenuCommandInteraction<
     E extends Env

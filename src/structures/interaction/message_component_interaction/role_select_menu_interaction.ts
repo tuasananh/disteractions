@@ -7,9 +7,9 @@ import type {
     Snowflake,
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
-import { Role } from "../discord_objects/role.js";
-import type { DisteractionContext } from "../disteraction_context.js";
-import { MessageComponentInteraction } from "./message_component_interaction.js";
+import { Role } from "../../discord_objects/role.js";
+import type { DisteractionContext } from "../../disteraction_context.js";
+import { MessageComponentInteraction } from "./index.js";
 
 export type APIRoleSelectMenuInteraction =
     APIMessageComponentSelectMenuInteraction &

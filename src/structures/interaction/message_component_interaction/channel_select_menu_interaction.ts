@@ -1,5 +1,6 @@
 import type {
     APIBaseInteraction,
+    APIInteractionDataResolvedChannel,
     APIMessageChannelSelectInteractionData,
     APIMessageComponentSelectMenuInteraction,
     ComponentType,
@@ -7,9 +8,8 @@ import type {
     Snowflake,
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
-import { BaseChannel } from "../discord_objects/base_channel.js";
-import type { DisteractionContext } from "../disteraction_context.js";
-import { MessageComponentInteraction } from "./message_component_interaction.js";
+import type { DisteractionContext } from "../../disteraction_context.js";
+import { MessageComponentInteraction } from "./index.js";
 
 export type APIChannelSelectMenuInteraction =
     APIMessageComponentSelectMenuInteraction &
@@ -25,7 +25,7 @@ export class ChannelSelectMenuInteraction<
     declare componentType: ComponentType.ChannelSelect;
 
     values: Snowflake[];
-    channels: Map<Snowflake, BaseChannel<E>>;
+    channels: Map<Snowflake, APIInteractionDataResolvedChannel>;
 
     constructor(
         ctx: DisteractionContext<E>,
@@ -34,8 +34,10 @@ export class ChannelSelectMenuInteraction<
         super(ctx, data);
         this.values = data.data.values;
         this.channels = new Map();
-        for (const [id, user] of Object.entries(data.data.resolved.channels)) {
-            this.channels.set(id, new BaseChannel(ctx, user));
+        for (const [id, channel] of Object.entries(
+            data.data.resolved.channels
+        )) {
+            this.channels.set(id, channel);
         }
     }
 }

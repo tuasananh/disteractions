@@ -1,5 +1,5 @@
 import type { Env } from "hono";
-import type { ChatInputCommandInteraction } from "../../interactions/chat_input_command_interaction.js";
+import type { ChatInputCommandInteraction } from "../../interaction/command_interaction/chat_input_command_interaction.js";
 import type {
     ChatInputCommandArguments,
     ChatInputCommandArgumentToMaybeOptionalType,

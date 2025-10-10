@@ -4,11 +4,9 @@ import { Base } from "../base.js";
 import type { DisteractionContext } from "../disteraction_context.js";
 
 export class Message<E extends Env> extends Base<E> {
-    data: APIMessage;
+    declare rawData: APIMessage;
 
     constructor(ctx: DisteractionContext<E>, data: APIMessage) {
         super(ctx, data);
-        // this.ctx = ctx;
-        this.data = data;
     }
 }

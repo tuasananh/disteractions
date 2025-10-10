@@ -1,5 +1,5 @@
 import type { Env } from "hono";
-import type { ButtonInteraction } from "../../interactions/button_interaction.js";
+import type { ButtonInteraction } from "../../interaction/index.js";
 
 export type ButtonCallback<E extends Env, RetType extends void | Response> = (
     interaction: ButtonInteraction<E>,

@@ -13,23 +13,34 @@ import {
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
 import { Base } from "../base.js";
+import { BaseChannel } from "../discord_objects/base_channel.js";
+import { Guild } from "../discord_objects/guild.js";
 import { User } from "../discord_objects/user.js";
 import type { DisteractionContext } from "../disteraction_context.js";
 import type { AutocompleteInteraction } from "./autocomplete_interaction.js";
-import type { ButtonInteraction } from "./button_interaction.js";
-import type { ChannelSelectMenuInteraction } from "./channel_select_menu_interaction.js";
-import type { ChatInputCommandInteraction } from "./chat_input_command_interaction.js";
-import type { CommandInteraction } from "./command_interaction.js";
-import type { ContextMenuCommandInteraction } from "./context_menu_command_interaction.js";
-import type { MentionableSelectMenuInteraction } from "./mentionable_select_menu_interaction.js";
-import type { MessageComponentInteraction } from "./message_component_interaction.js";
-import type { MessageContextMenuCommandInteraction } from "./message_context_menu_interaction.js";
+import type {
+    ChatInputCommandInteraction,
+    CommandInteraction,
+    ContextMenuCommandInteraction,
+    MessageContextMenuCommandInteraction,
+    PrimaryEntryPointCommandInteraction,
+    UserContextMenuCommandInteraction,
+} from "./command_interaction/index.js";
+import type {
+    ButtonInteraction,
+    ChannelSelectMenuInteraction,
+    MentionableSelectMenuInteraction,
+    MessageComponentInteraction,
+    RoleSelectMenuInteraction,
+    StringSelectMenuInteraction,
+    UserSelectMenuInteraction,
+} from "./message_component_interaction/index.js";
 import type { ModalSubmitInteraction } from "./modal_submit_interaction.js";
-import type { PrimaryEntryPointCommandInteraction } from "./primary_entry_point_command_interaction.js";
-import type { RoleSelectMenuInteraction } from "./role_select_menu_interaction.js";
-import type { StringSelectMenuInteraction } from "./string_select_menu_interaction.js";
-import type { UserContextMenuCommandInteraction } from "./user_context_menu_command_interaction.js";
-import type { UserSelectMenuInteraction } from "./user_select_menu_interaction.js";
+export * from "./autocomplete_interaction.js";
+export * from "./command_interaction/index.js";
+export * from "./message_component_interaction/index.js";
+export * from "./modal_submit_interaction.js";
+export * from "./repliable_interaction.js";
 
 /**
  * Represents an interaction
@@ -150,22 +161,27 @@ export class BaseInteraction<E extends Env> extends Base<E> {
         this.attachmentsizelimit = data.attachment_size_limit;
     }
 
-    // /**
-    //  * The channel this interaction was sent in
-    //  */
-    // get channel() {
-    //     return this.client.channels.cache.get(this.channelId) ?? null;
-    // }
+    /**
+     * The channel this interaction was sent in
+     */
+    async getChannel() {
+        if (this.channelId === null) return null;
+        return new BaseChannel(
+            this.ctx,
+            await this.ctx.discord.channels.get(this.channelId)
+        );
+    }
 
-    // /**
-    //  * The guild this interaction was sent in
-    //  *
-    //  * @type {?Guild}
-    //  * @readonly
-    //  */
-    // get guild() {
-    //     return this.client.guilds.cache.get(this.guildId) ?? null;
-    // }
+    /**
+     * The guild this interaction was sent in
+     */
+    async getGuild() {
+        if (this.guildId === null) return null;
+        return new Guild(
+            this.ctx,
+            await this.ctx.discord.guilds.get(this.guildId)
+        );
+    }
 
     /**
      * Indicates whether this interaction is received from a guild.
@@ -281,15 +297,21 @@ export class BaseInteraction<E extends Env> extends Base<E> {
         );
     }
 
-    // /**
-    //  * Indicates whether this interaction is a select menu of any known type.
-    //  */
-    // isSelectMenu() {
-    //     return (
-    //         this.type === InteractionType.MessageComponent &&
-    //         SelectMenuTypes.includes(this.componentType)
-    //     );
-    // }
+    /**
+     * Indicates whether this interaction is a select menu of any known type.
+     */
+    isSelectMenu() {
+        return (
+            this.isMessageComponent() &&
+            [
+                ComponentType.RoleSelect,
+                ComponentType.StringSelect,
+                ComponentType.UserSelect,
+                ComponentType.ChannelSelect,
+                ComponentType.MentionableSelect,
+            ].includes(this.componentType)
+        );
+    }
 
     /**
      * Indicates whether this interaction is a {@link StringSelectMenuInteraction}.

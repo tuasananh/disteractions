@@ -1,5 +1,5 @@
 import type { Env } from "hono";
-import type { ModalSubmitInteraction } from "../../interactions/modal_submit_interaction.js";
+import type { ModalSubmitInteraction } from "../../interaction/modal_submit_interaction.js";
 import type { ModalFields, ModalFieldToType } from "./fields.js";
 
 export type ModalCallback<
