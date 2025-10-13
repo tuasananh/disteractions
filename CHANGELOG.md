@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Additional utility functions
 -   Performance optimizations
 
+## [0.7.1] - 2025-10-13
+
+### Refactor
+
+-   Reorganise imports and exports
+
 ## [0.7.0] - 2025-10-09
 
 ### Added
