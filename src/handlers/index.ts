@@ -49,6 +49,7 @@ import { applicationCommandAutocompleteHandler } from "./autocomplete/index.js";
 import { applicationCommandHandler } from "./command/index.js";
 import { messageComponentHandler } from "./message_component/index.js";
 import { modalSubmitHandler } from "./modal_submit/index.js";
+export * from "./autocomplete/index.js";
 export * from "./command/index.js";
 export * from "./message_component/index.js";
 export * from "./modal_submit/index.js";

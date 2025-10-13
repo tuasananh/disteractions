@@ -4,7 +4,7 @@ import type {
 } from "@discordjs/core/http-only";
 import type { Env } from "hono";
 import type { DisteractionContext } from "../../disteraction_context.js";
-import { CommandInteraction } from "./index.js";
+import { CommandInteraction } from "./command_interaction.js";
 
 export class PrimaryEntryPointCommandInteraction<
     E extends Env

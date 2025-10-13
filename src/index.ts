@@ -30,4 +30,6 @@ export * from "./structures/index.js";
 /** Re-export type definitions */
 export * from "./types/index.js";
 /** Re-export utility functions and types */
+export * from "./errors/index.js";
 export * from "./utils/index.js";
+

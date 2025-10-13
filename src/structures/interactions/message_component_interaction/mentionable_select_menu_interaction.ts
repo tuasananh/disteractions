@@ -11,7 +11,7 @@ import type { Env } from "hono";
 import { Role } from "../../discord_objects/role.js";
 import { User } from "../../discord_objects/user.js";
 import type { DisteractionContext } from "../../disteraction_context.js";
-import { MessageComponentInteraction } from "./index.js";
+import { MessageComponentInteraction } from "./message_component_interaction.js";
 
 export type APIMentionableSelectMenuInteraction =
     APIMessageComponentSelectMenuInteraction &

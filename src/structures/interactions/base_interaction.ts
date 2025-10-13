@@ -36,11 +36,6 @@ import type {
     UserSelectMenuInteraction,
 } from "./message_component_interaction/index.js";
 import type { ModalSubmitInteraction } from "./modal_submit_interaction.js";
-export * from "./autocomplete_interaction.js";
-export * from "./command_interaction/index.js";
-export * from "./message_component_interaction/index.js";
-export * from "./modal_submit_interaction.js";
-export * from "./repliable_interaction.js";
 
 /**
  * Represents an interaction

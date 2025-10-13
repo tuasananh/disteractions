@@ -7,12 +7,6 @@ import type { Env } from "hono";
 import { Message } from "../../discord_objects/message.js";
 import type { DisteractionContext } from "../../disteraction_context.js";
 import { RepliableInteraction } from "../repliable_interaction.js";
-export * from "./button_interaction.js";
-export * from "./channel_select_menu_interaction.js";
-export * from "./mentionable_select_menu_interaction.js";
-export * from "./role_select_menu_interaction.js";
-export * from "./string_select_menu_interaction.js";
-export * from "./user_select_menu_interaction.js";
 
 export class MessageComponentInteraction<
     E extends Env

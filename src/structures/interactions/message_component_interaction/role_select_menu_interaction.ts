@@ -9,7 +9,7 @@ import type {
 import type { Env } from "hono";
 import { Role } from "../../discord_objects/role.js";
 import type { DisteractionContext } from "../../disteraction_context.js";
-import { MessageComponentInteraction } from "./index.js";
+import { MessageComponentInteraction } from "./message_component_interaction.js";
 
 export type APIRoleSelectMenuInteraction =
     APIMessageComponentSelectMenuInteraction &
