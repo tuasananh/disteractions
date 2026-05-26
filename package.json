@@ -37,7 +37,7 @@
     "@eslint/markdown": "^8.0.2",
     "@types/node": "^25.9.1",
     "eslint": "^9.39.4",
-    "eslint-plugin-tsdoc": "^0.4.0",
+    "eslint-plugin-tsdoc": "^0.5.2",
     "globals": "^16.5.0",
     "jiti": "^2.7.0",
     "prettier": "^3.8.3",
