@@ -1,48 +1,57 @@
 {
-    "name": "disteractions",
-    "version": "0.7.1",
-    "description": "",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc",
-        "lint": "eslint ./src",
-        "gendoc": "typedoc --out docs src --includeVersion --excludePrivate --excludeProtected"
-    },
-    "packageManager": "pnpm@10.16.1",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/tuasananh/disteractions.git"
-    },
-    "type": "module",
-    "keywords": [],
-    "author": "Tran Tuan Anh <tuasananh@gmail.com>",
-    "files": [
-        "dist",
-        "README.md"
-    ],
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/tuasananh/disteractions/issues"
-    },
-    "homepage": "https://github.com/tuasananh/disteractions",
-    "devDependencies": {
-        "@eslint/js": "^9.37.0",
-        "eslint": "^9.37.0",
-        "eslint-plugin-tsdoc": "^0.4.0",
-        "globals": "^16.4.0",
-        "typedoc": "^0.28.13",
-        "typescript": "^5.9.3",
-        "typescript-eslint": "^8.46.0"
-    },
-    "dependencies": {
-        "@discordjs/builders": "^1.12.2",
-        "@discordjs/core": "^2.3.0",
-        "@discordjs/formatters": "^0.6.1",
-        "@discordjs/rest": "^2.6.0",
-        "@sapphire/snowflake": "^3.5.5",
-        "hono": "^4.9.10",
-        "tweetnacl": "^1.0.3"
-    }
+  "name": "disteractions",
+  "version": "0.7.1",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src",
+    "gendoc": "typedoc --out docs src --includeVersion --excludePrivate --excludeProtected",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "tsc": "tsc --noEmit",
+    "build": "tsc --noEmit"
+  },
+  "packageManager": "pnpm@10.16.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tuasananh/disteractions.git"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "Tran Tuan Anh <tuasananh@gmail.com>",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tuasananh/disteractions/issues"
+  },
+  "homepage": "https://github.com/tuasananh/disteractions",
+  "devDependencies": {
+    "@eslint/css": "^1.2.0",
+    "@eslint/js": "^9.39.4",
+    "@eslint/json": "^1.2.0",
+    "@eslint/markdown": "^8.0.2",
+    "@types/node": "^25.9.1",
+    "eslint": "^9.39.4",
+    "eslint-plugin-tsdoc": "^0.4.0",
+    "globals": "^16.5.0",
+    "jiti": "^2.7.0",
+    "prettier": "^3.8.3",
+    "typedoc": "^0.28.19",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.60.0"
+  },
+  "dependencies": {
+    "@discordjs/builders": "^1.14.1",
+    "@discordjs/core": "^2.4.0",
+    "@discordjs/formatters": "^0.6.2",
+    "@discordjs/rest": "^2.6.1",
+    "@sapphire/snowflake": "^3.5.5",
+    "hono": "^4.12.23",
+    "tweetnacl": "^1.0.3"
+  }
 }

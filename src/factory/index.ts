@@ -1,15 +1,15 @@
-import type { Env } from "hono";
+import type { Env } from 'hono';
 import {
-    Button,
-    ChatInputCommand,
-    Modal,
-    type ButtonDefaultValues,
-    type ButtonOptions,
-    type ChatInputCommandArguments,
-    type ChatInputCommandOptions,
-    type ModalFields,
-    type ModalOptions,
-} from "../structures/index.js";
+  Button,
+  ChatInputCommand,
+  Modal,
+  type ButtonDefaultValues,
+  type ButtonOptions,
+  type ChatInputCommandArguments,
+  type ChatInputCommandOptions,
+  type ModalFields,
+  type ModalOptions,
+} from '../structures/index.js';
 
 /**
  * Factory class for creating Discord interaction components (slash commands, buttons, modals).
@@ -36,110 +36,108 @@ import {
  * ```
  */
 export class DisteractionsFactory<E extends Env> {
-    /**
-     * Creates a new slash command (chat input application command).
-     *
-     * This method returns a factory function that creates {@link ChatInputCommand} instances
-     * with type-safe arguments and options. The returned command can be registered with Discord
-     * and handled by the interaction system.
-     *
-     * @returns A factory function that creates slash commands
-     *
-     * @example
-     * ```typescript
-     * const greetCommand = factory.slashCommand({
-     *   name: 'greet',
-     *   description: 'Greet a user',
-     *   arguments: {
-     *     user: {
-     *       type: ApplicationCommandOptionType.User,
-     *       description: 'User to greet',
-     *       required: true
-     *     }
-     *   },
-     *   runner: async (interaction, args) => {
-     *     return interaction.jsonReply(`Hello ${args.user}!`);
-     *   }
-     * });
-     * ```
-     */
-    get slashCommand() {
-        return function <Args extends ChatInputCommandArguments<E>>(
-            opts: ChatInputCommandOptions<E, Args>
-        ) {
-            return new ChatInputCommand<E, Args>(opts);
-        };
-    }
+  /**
+   * Creates a new slash command (chat input application command).
+   *
+   * This method returns a factory function that creates {@link ChatInputCommand} instances
+   * with type-safe arguments and options. The returned command can be registered with Discord
+   * and handled by the interaction system.
+   *
+   * @returns A factory function that creates slash commands
+   *
+   * @example
+   * ```typescript
+   * const greetCommand = factory.slashCommand({
+   *   name: 'greet',
+   *   description: 'Greet a user',
+   *   arguments: {
+   *     user: {
+   *       type: ApplicationCommandOptionType.User,
+   *       description: 'User to greet',
+   *       required: true
+   *     }
+   *   },
+   *   runner: async (interaction, args) => {
+   *     return interaction.jsonReply(`Hello ${args.user}!`);
+   *   }
+   * });
+   * ```
+   */
+  get slashCommand() {
+    return function <Args extends ChatInputCommandArguments<E>>(
+      opts: ChatInputCommandOptions<E, Args>,
+    ) {
+      return new ChatInputCommand<E, Args>(opts);
+    };
+  }
 
-    /**
-     * Creates a new reactive button component.
-     *
-     * Reactive buttons maintain state through default values and can dynamically update
-     * their appearance and behavior. They're useful for creating interactive UI components
-     * that need to persist data between interactions.
-     *
-     * @returns A factory function that creates reactive buttons
-     *
-     * @example
-     * ```typescript
-     * const counterButton = factory.reactiveButton({
-     *   id: 1,
-     *   defaultValues: {
-     *     style: ButtonStyle.Primary
-     *   },
-     *   runner: async (interaction, data) => {
-     *      return interaction.jsonReply(`Received: ${data}`);
-     *   }
-     * });
-     * ```
-     */
-    get reactiveButton() {
-        return function <D extends ButtonDefaultValues>(
-            opts: ButtonOptions<E, D>
-        ) {
-            return new Button<E, D>(opts);
-        };
-    }
+  /**
+   * Creates a new reactive button component.
+   *
+   * Reactive buttons maintain state through default values and can dynamically update
+   * their appearance and behavior. They're useful for creating interactive UI components
+   * that need to persist data between interactions.
+   *
+   * @returns A factory function that creates reactive buttons
+   *
+   * @example
+   * ```typescript
+   * const counterButton = factory.reactiveButton({
+   *   id: 1,
+   *   defaultValues: {
+   *     style: ButtonStyle.Primary
+   *   },
+   *   runner: async (interaction, data) => {
+   *      return interaction.jsonReply(`Received: ${data}`);
+   *   }
+   * });
+   * ```
+   */
+  get reactiveButton() {
+    return function <D extends ButtonDefaultValues>(opts: ButtonOptions<E, D>) {
+      return new Button<E, D>(opts);
+    };
+  }
 
-    /**
-     * Creates a new modal dialog.
-     *
-     * Modals allow you to create forms with text inputs and other components
-     * that users can fill out. The fields are type-safe and automatically
-     * validated when submitted.
-     *
-     * @returns A factory function that creates modals
-     *
-     * @example
-     * ```typescript
-     * const feedbackModal = factory.modal({
-     *   id: 1,
-     *   title: 'Send Feedback',
-     *   fields: {
-     *     subject: {
-     *       type: ComponentType.TextInput,
-     *       style: TextInputStyle.Short,
-     *       label: 'Subject',
-     *       required: true
-     *     },
-     *     message: {
-     *       type: ComponentType.TextInput,
-     *       style: TextInputStyle.Paragraph,
-     *       label: 'Message',
-     *       required: false
-     *     }
-     *   },
-     *   runner: async (interaction, fields) => {
-     *     return interaction.jsonReply(`Thanks for: ${fields.subject}`);
-     *   }
-     * });
-     * ```
-     */
-    get modal() {
-        return function <Fields extends ModalFields>(
-            opts: ModalOptions<E, Fields>
-        ) {
-            return new Modal<E, Fields>(opts);
-        };
-    }
+  /**
+   * Creates a new modal dialog.
+   *
+   * Modals allow you to create forms with text inputs and other components
+   * that users can fill out. The fields are type-safe and automatically
+   * validated when submitted.
+   *
+   * @returns A factory function that creates modals
+   *
+   * @example
+   * ```typescript
+   * const feedbackModal = factory.modal({
+   *   id: 1,
+   *   title: 'Send Feedback',
+   *   fields: {
+   *     subject: {
+   *       type: ComponentType.TextInput,
+   *       style: TextInputStyle.Short,
+   *       label: 'Subject',
+   *       required: true
+   *     },
+   *     message: {
+   *       type: ComponentType.TextInput,
+   *       style: TextInputStyle.Paragraph,
+   *       label: 'Message',
+   *       required: false
+   *     }
+   *   },
+   *   runner: async (interaction, fields) => {
+   *     return interaction.jsonReply(`Thanks for: ${fields.subject}`);
+   *   }
+   * });
+   * ```
+   */
+  get modal() {
+    return function <Fields extends ModalFields>(
+      opts: ModalOptions<E, Fields>,
+    ) {
+      return new Modal<E, Fields>(opts);
+    };
+  }
 }

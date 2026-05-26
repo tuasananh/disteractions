@@ -16,7 +16,7 @@
  * ```
  */
 export enum ErrorCodes {
-    CommandInteractionCannotDeferUpdate,
-    CommandInteractionCannotUpdate,
-    ModalSubmitInteractionCannotShowModal,
+  CommandInteractionCannotDeferUpdate,
+  CommandInteractionCannotUpdate,
+  ModalSubmitInteractionCannotShowModal,
 }

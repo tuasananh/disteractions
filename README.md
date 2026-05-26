@@ -1,6 +1,7 @@
 # disteractions
 
-A modern, type-safe Discord interactions framework built on top of [Hono](https://hono.dev/) for serverless environments.
+A modern, type-safe Discord interactions framework built on top of
+[Hono](https://hono.dev/) for serverless environments.
 
 ## ✨ Features
 
@@ -26,6 +27,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📞 Support
 
--   🐛 [Report Issues](https://github.com/tuasananh/disteractions/issues)
--   💬 [Discussions](https://github.com/tuasananh/disteractions/discussions)
--   📧 Email: tuasananh@gmail.com
+- 🐛 [Report Issues](https://github.com/tuasananh/disteractions/issues)
+- 💬 [Discussions](https://github.com/tuasananh/disteractions/discussions)
+- 📧 Email: <tuasananh@gmail.com>

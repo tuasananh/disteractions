@@ -6,10 +6,10 @@
  * and conditional required/optional behavior.
  */
 
-import type { ApplicationCommandOptionType } from "@discordjs/core/http-only";
-import type { Env } from "hono";
-import type { RequiredIf } from "../../../utils/index.js";
-import type { AutocompleteInteraction } from "../../interactions/autocomplete_interaction.js";
+import type { ApplicationCommandOptionType } from '@discordjs/core/http-only';
+import type { Env } from 'hono';
+import type { RequiredIf } from '../../../utils/index.js';
+import type { AutocompleteInteraction } from '../../interactions/autocomplete_interaction.js';
 
 /**
  * Maps Discord application command option types to their corresponding TypeScript types.
@@ -17,16 +17,16 @@ import type { AutocompleteInteraction } from "../../interactions/autocomplete_in
  * This utility type ensures type safety when working with command argument values.
  */
 export type ChatInputCommandArgumentToType<
-    T extends ApplicationCommandOptionType
+  T extends ApplicationCommandOptionType,
 > = T extends
-    | ApplicationCommandOptionType.Integer
-    | ApplicationCommandOptionType.Number
-    ? number
-    : T extends ApplicationCommandOptionType.String
+  | ApplicationCommandOptionType.Integer
+  | ApplicationCommandOptionType.Number
+  ? number
+  : T extends ApplicationCommandOptionType.String
     ? string
     : T extends ApplicationCommandOptionType.Boolean
-    ? boolean
-    : never;
+      ? boolean
+      : never;
 
 /**
  * Conditionally makes a command argument type required or optional.
@@ -46,8 +46,8 @@ export type ChatInputCommandArgumentToType<
  * ```
  */
 export type ChatInputCommandArgumentToMaybeOptionalType<
-    T extends ApplicationCommandOptionType,
-    R extends boolean | undefined
+  T extends ApplicationCommandOptionType,
+  R extends boolean | undefined,
 > = RequiredIf<ChatInputCommandArgumentToType<T>, R>;
 
 /**
@@ -56,34 +56,34 @@ export type ChatInputCommandArgumentToMaybeOptionalType<
  * This ensures type safety at compile time for the required property.
  */
 export type ChatInputCommandArgumentSharedRequired =
-    | {
-          /**
-           * Whether this argument is required or not. Defaults to `false`.
-           *
-           * When set to `true`, users must provide this argument when using the command.
-           */
-          required: true;
-      }
-    | {
-          /**
-           * Whether this argument is required or not. Defaults to `false`.
-           *
-           * When `false` or omitted, users can optionally provide this argument.
-           */
-          required?: false;
-      };
+  | {
+      /**
+       * Whether this argument is required or not. Defaults to `false`.
+       *
+       * When set to `true`, users must provide this argument when using the command.
+       */
+      required: true;
+    }
+  | {
+      /**
+       * Whether this argument is required or not. Defaults to `false`.
+       *
+       * When `false` or omitted, users can optionally provide this argument.
+       */
+      required?: false;
+    };
 
 /**
  * Shared description property for all argument types.
  */
 export type ChatInputCommandArgumentSharedDescription = {
-    /**
-     * The description of the argument. Between 1 and 100 characters.
-     *
-     * This description is shown to users in the Discord client when they
-     * are typing the command, helping them understand what the argument is for.
-     */
-    description: string;
+  /**
+   * The description of the argument. Between 1 and 100 characters.
+   *
+   * This description is shown to users in the Discord client when they
+   * are typing the command, helping them understand what the argument is for.
+   */
+  description: string;
 };
 
 /**
@@ -92,16 +92,16 @@ export type ChatInputCommandArgumentSharedDescription = {
  * Combines required status, description, and the specific option type.
  */
 export type ChatInputCommandArgumentBase<
-    T extends ApplicationCommandOptionType
+  T extends ApplicationCommandOptionType,
 > = ChatInputCommandArgumentSharedRequired &
-    ChatInputCommandArgumentSharedDescription & {
-        /**
-         * The Discord application command option type.
-         *
-         * Determines the data type and validation behavior for this argument.
-         */
-        type: T;
-    };
+  ChatInputCommandArgumentSharedDescription & {
+    /**
+     * The Discord application command option type.
+     *
+     * Determines the data type and validation behavior for this argument.
+     */
+    type: T;
+  };
 
 /**
  * Shared minimum and maximum value constraints for numeric arguments.
@@ -109,18 +109,18 @@ export type ChatInputCommandArgumentBase<
  * Used by both integer and number argument types to define valid ranges.
  */
 export type ChatInputCommandArgumentSharedMinMax = {
-    /**
-     * The minimum value for the argument.
-     *
-     * If specified, Discord will reject values below this threshold.
-     */
-    minValue?: number;
-    /**
-     * The maximum value for the argument.
-     *
-     * If specified, Discord will reject values above this threshold.
-     */
-    maxValue?: number;
+  /**
+   * The minimum value for the argument.
+   *
+   * If specified, Discord will reject values below this threshold.
+   */
+  minValue?: number;
+  /**
+   * The maximum value for the argument.
+   *
+   * If specified, Discord will reject values above this threshold.
+   */
+  maxValue?: number;
 };
 
 /**
@@ -139,22 +139,22 @@ export type ChatInputCommandArgumentSharedMinMax = {
  * ```
  */
 export type ChatInputCommandArgumentAutocompleteCallback<
-    E extends Env,
-    ChoiceType
+  E extends Env,
+  ChoiceType,
 > = (
-    /**
-     * The autocomplete interaction that triggered this callback.
-     *
-     * Provides access to the context and user information.
-     */
-    interaction: AutocompleteInteraction<E>,
-    /**
-     * The current value of the argument being autocompleted.
-     *
-     * This is what the user has typed so far, which can be used
-     * to filter or search for relevant suggestions.
-     */
-    value: string
+  /**
+   * The autocomplete interaction that triggered this callback.
+   *
+   * Provides access to the context and user information.
+   */
+  interaction: AutocompleteInteraction<E>,
+  /**
+   * The current value of the argument being autocompleted.
+   *
+   * This is what the user has typed so far, which can be used
+   * to filter or search for relevant suggestions.
+   */
+  value: string,
 ) => Promise<{ name: string; value: ChoiceType }[]>;
 
 /**
@@ -164,41 +164,41 @@ export type ChatInputCommandArgumentAutocompleteCallback<
  * but not both simultaneously. This type enforces that constraint.
  */
 export type ChatInputCommandArgumentChoiceWrapper<E extends Env, ChoiceType> =
-    | {
-          /**
-           * Whether this argument supports autocomplete. Defaults to `false`.
-           *
-           * When enabled, Discord will call the autocomplete callback as users type,
-           * allowing for dynamic suggestion generation.
-           */
-          autocomplete: true;
-          /**
-           * The callback function to be called when the user is typing in the argument.
-           *
-           * This function should return an array of suggestions based on the current input.
-           */
-          autocompleteCallback: ChatInputCommandArgumentAutocompleteCallback<
-              E,
-              ChoiceType
-          >;
-          /** Choices are not allowed when autocomplete is enabled */
-          choices?: [];
-      }
-    | {
-          /**
-           * Whether this argument supports autocomplete. Defaults to `false`.
-           *
-           * When disabled, the argument can use predefined choices instead.
-           */
-          autocomplete?: false;
-          /**
-           * Predefined choices for this argument.
-           *
-           * Users will see these options in a dropdown when using the command.
-           * Maximum of 25 choices allowed.
-           */
-          choices?: { name: string; value: ChoiceType }[];
-      };
+  | {
+      /**
+       * Whether this argument supports autocomplete. Defaults to `false`.
+       *
+       * When enabled, Discord will call the autocomplete callback as users type,
+       * allowing for dynamic suggestion generation.
+       */
+      autocomplete: true;
+      /**
+       * The callback function to be called when the user is typing in the argument.
+       *
+       * This function should return an array of suggestions based on the current input.
+       */
+      autocompleteCallback: ChatInputCommandArgumentAutocompleteCallback<
+        E,
+        ChoiceType
+      >;
+      /** Choices are not allowed when autocomplete is enabled */
+      choices?: [];
+    }
+  | {
+      /**
+       * Whether this argument supports autocomplete. Defaults to `false`.
+       *
+       * When disabled, the argument can use predefined choices instead.
+       */
+      autocomplete?: false;
+      /**
+       * Predefined choices for this argument.
+       *
+       * Users will see these options in a dropdown when using the command.
+       * Maximum of 25 choices allowed.
+       */
+      choices?: { name: string; value: ChoiceType }[];
+    };
 
 /**
  * Boolean argument type for slash commands.
@@ -216,7 +216,7 @@ export type ChatInputCommandArgumentChoiceWrapper<E extends Env, ChoiceType> =
  * ```
  */
 export type ChatInputCommandBooleanArgument =
-    ChatInputCommandArgumentBase<ApplicationCommandOptionType.Boolean>;
+  ChatInputCommandArgumentBase<ApplicationCommandOptionType.Boolean>;
 
 /**
  * Integer argument type for slash commands.
@@ -236,9 +236,9 @@ export type ChatInputCommandBooleanArgument =
  * ```
  */
 export type ChatInputCommandIntegerArgument<E extends Env> =
-    ChatInputCommandArgumentBase<ApplicationCommandOptionType.Integer> &
-        ChatInputCommandArgumentSharedMinMax &
-        ChatInputCommandArgumentChoiceWrapper<E, number>;
+  ChatInputCommandArgumentBase<ApplicationCommandOptionType.Integer> &
+    ChatInputCommandArgumentSharedMinMax &
+    ChatInputCommandArgumentChoiceWrapper<E, number>;
 
 /**
  * String argument type for slash commands.
@@ -258,21 +258,21 @@ export type ChatInputCommandIntegerArgument<E extends Env> =
  * ```
  */
 export type ChatInputCommandStringArgument<E extends Env> =
-    ChatInputCommandArgumentBase<ApplicationCommandOptionType.String> &
-        ChatInputCommandArgumentChoiceWrapper<E, string> & {
-            /**
-             * The minimum length for string values.
-             *
-             * If specified, Discord will reject strings shorter than this.
-             */
-            minLength?: number;
-            /**
-             * The maximum length for string values.
-             *
-             * If specified, Discord will reject strings longer than this.
-             */
-            maxLength?: number;
-        };
+  ChatInputCommandArgumentBase<ApplicationCommandOptionType.String> &
+    ChatInputCommandArgumentChoiceWrapper<E, string> & {
+      /**
+       * The minimum length for string values.
+       *
+       * If specified, Discord will reject strings shorter than this.
+       */
+      minLength?: number;
+      /**
+       * The maximum length for string values.
+       *
+       * If specified, Discord will reject strings longer than this.
+       */
+      maxLength?: number;
+    };
 
 /**
  * Number (decimal) argument type for slash commands.
@@ -292,9 +292,9 @@ export type ChatInputCommandStringArgument<E extends Env> =
  * ```
  */
 export type ChatInputCommandNumberArgument<E extends Env> =
-    ChatInputCommandArgumentBase<ApplicationCommandOptionType.Number> &
-        ChatInputCommandArgumentSharedMinMax &
-        ChatInputCommandArgumentChoiceWrapper<E, number>;
+  ChatInputCommandArgumentBase<ApplicationCommandOptionType.Number> &
+    ChatInputCommandArgumentSharedMinMax &
+    ChatInputCommandArgumentChoiceWrapper<E, number>;
 
 /**
  * Union type representing any valid command argument.
@@ -302,10 +302,10 @@ export type ChatInputCommandNumberArgument<E extends Env> =
  * This type encompasses all supported argument types for slash commands.
  */
 export type ChatInputCommandArgument<E extends Env> =
-    | ChatInputCommandIntegerArgument<E>
-    | ChatInputCommandBooleanArgument
-    | ChatInputCommandNumberArgument<E>
-    | ChatInputCommandStringArgument<E>;
+  | ChatInputCommandIntegerArgument<E>
+  | ChatInputCommandBooleanArgument
+  | ChatInputCommandNumberArgument<E>
+  | ChatInputCommandStringArgument<E>;
 
 /**
  * Type definition for the complete set of arguments for a slash command.
@@ -330,6 +330,6 @@ export type ChatInputCommandArgument<E extends Env> =
  * ```
  */
 export type ChatInputCommandArguments<E extends Env> = Record<
-    string,
-    ChatInputCommandArgument<E>
+  string,
+  ChatInputCommandArgument<E>
 >;

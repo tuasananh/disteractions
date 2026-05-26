@@ -1,34 +1,34 @@
-import type { Env } from "hono";
-import type { ChatInputCommandInteraction } from "../../interactions/command_interaction/chat_input_command_interaction.js";
+import type { Env } from 'hono';
+import type { ChatInputCommandInteraction } from '../../interactions/command_interaction/chat_input_command_interaction.js';
 import type {
-    ChatInputCommandArguments,
-    ChatInputCommandArgumentToMaybeOptionalType,
-} from "./arguments.js";
+  ChatInputCommandArguments,
+  ChatInputCommandArgumentToMaybeOptionalType,
+} from './arguments.js';
 
 export type ChatInputCommandCallback<
-    E extends Env,
-    Args extends ChatInputCommandArguments<E>,
-    RetType extends void | Response
+  E extends Env,
+  Args extends ChatInputCommandArguments<E>,
+  RetType extends void | Response,
 > = (
-    interaction: ChatInputCommandInteraction<E>,
-    args: {
-        [K in keyof Args]: ChatInputCommandArgumentToMaybeOptionalType<
-            Args[K]["type"],
-            Args[K]["required"]
-        >;
-    }
+  interaction: ChatInputCommandInteraction<E>,
+  args: {
+    [K in keyof Args]: ChatInputCommandArgumentToMaybeOptionalType<
+      Args[K]['type'],
+      Args[K]['required']
+    >;
+  },
 ) => Promise<RetType>;
 
 export type ChatInputCommandRunner<
-    E extends Env,
-    Args extends ChatInputCommandArguments<E>
+  E extends Env,
+  Args extends ChatInputCommandArguments<E>,
 > =
-    | {
-          shouldDefer: true;
-          callback: ChatInputCommandCallback<E, Args, void>;
-      }
-    | {
-          shouldDefer?: false;
-          callback: ChatInputCommandCallback<E, Args, Response>;
-      }
-    | ChatInputCommandCallback<E, Args, Response>;
+  | {
+      shouldDefer: true;
+      callback: ChatInputCommandCallback<E, Args, void>;
+    }
+  | {
+      shouldDefer?: false;
+      callback: ChatInputCommandCallback<E, Args, Response>;
+    }
+  | ChatInputCommandCallback<E, Args, Response>;

@@ -1,27 +1,25 @@
 import type {
-    APIChatInputApplicationCommandInteraction,
-    ApplicationCommandType,
-} from "@discordjs/core/http-only";
-import type { Env } from "hono";
-import type { DisteractionContext } from "../../disteraction_context.js";
-import { CommandInteraction } from "./command_interaction.js";
+  APIChatInputApplicationCommandInteraction,
+  ApplicationCommandType,
+} from '@discordjs/core/http-only';
+import type { Env } from 'hono';
+import type { DisteractionContext } from '../../disteraction_context.js';
+import { CommandInteraction } from './command_interaction.js';
 
 export class ChatInputCommandInteraction<
-    E extends Env
+  E extends Env,
 > extends CommandInteraction<E> {
-    declare rawData: APIChatInputApplicationCommandInteraction;
-    declare commandType: ApplicationCommandType.ChatInput;
+  declare rawData: APIChatInputApplicationCommandInteraction;
+  declare commandType: ApplicationCommandType.ChatInput;
 
-    options:
-        | APIChatInputApplicationCommandInteraction["data"]["options"]
-        | null;
+  options: APIChatInputApplicationCommandInteraction['data']['options'] | null;
 
-    constructor(
-        ctx: DisteractionContext<E>,
-        data: APIChatInputApplicationCommandInteraction
-    ) {
-        super(ctx, data);
+  constructor(
+    ctx: DisteractionContext<E>,
+    data: APIChatInputApplicationCommandInteraction,
+  ) {
+    super(ctx, data);
 
-        this.options = data.data.options ?? null;
-    }
+    this.options = data.data.options ?? null;
+  }
 }

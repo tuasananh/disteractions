@@ -1,5 +1,5 @@
-import { API } from "@discordjs/core/http-only";
-import { REST } from "@discordjs/rest";
+import { API } from '@discordjs/core/http-only';
+import { REST } from '@discordjs/rest';
 
 /**
  * Creates a new Discord API client instance from a bot token.
@@ -18,8 +18,8 @@ import { REST } from "@discordjs/rest";
  * ```
  */
 export function makeApiFromToken(token: string) {
-    const rest = new REST({ version: "10" }).setToken(token);
-    return new API(rest);
+  const rest = new REST({ version: '10' }).setToken(token);
+  return new API(rest);
 }
 
 /**
@@ -42,8 +42,8 @@ export function makeApiFromToken(token: string) {
  * ```
  */
 export type RequiredIf<T, R extends boolean | undefined> = R extends true
-    ? T
-    : T | undefined;
+  ? T
+  : T | undefined;
 
 /**
  * Makes properties optional if they can be undefined, keeps others required.
@@ -63,12 +63,12 @@ export type RequiredIf<T, R extends boolean | undefined> = R extends true
  * ```
  */
 export type MakeOptionalIfUndefined<T> = {
-    [K in keyof T as undefined extends T[K] ? K : never]?: Exclude<
-        T[K],
-        undefined
-    >;
+  [K in keyof T as undefined extends T[K] ? K : never]?: Exclude<
+    T[K],
+    undefined
+  >;
 } & {
-    [K in keyof T as undefined extends T[K] ? never : K]: T[K];
+  [K in keyof T as undefined extends T[K] ? never : K]: T[K];
 };
 
 /**
@@ -91,14 +91,11 @@ export type MakeOptionalIfUndefined<T> = {
  * ```
  */
 export type MakeOptionalIfAllKeysAreOptional<T> = {
-    [K in keyof T as object extends T[K] ? K : never]?: Exclude<
-        T[K],
-        undefined
-    >;
+  [K in keyof T as object extends T[K] ? K : never]?: Exclude<T[K], undefined>;
 } & {
-    [K in keyof T as object extends T[K] ? never : K]: T[K];
+  [K in keyof T as object extends T[K] ? never : K]: T[K];
 };
 
 export type OptionalKeys<T> = {
-    [K in keyof T]?: T[K];
+  [K in keyof T]?: T[K];
 };
